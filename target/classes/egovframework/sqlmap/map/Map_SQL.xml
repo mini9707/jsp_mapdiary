@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Map">
+    <insert id="insertLocation" parameterType="locationVO">
+        INSERT INTO LOCATION
+            (LOCATION_NM, LOCATION_X, LOCATION_Y)
+        VALUES
+            (#{locationNm}, #{locationX}, #{locationY})
+    </insert>
+
+    <select id="selectLocationList" resultType="locationVO">
+        SELECT
+            LOCATION_ID as locationId,
+            LOCATION_NM as locationNm,
+            LOCATION_X as locationX,
+            LOCATION_Y as locationY
+        FROM LOCATION
+        ORDER BY LOCATION_ID DESC
+    </select>
+</mapper>
