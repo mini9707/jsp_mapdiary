@@ -20,7 +20,7 @@ public class MapController {
 
     @RequestMapping("/test.do")
     public String test(Model model) {
-        return "mapMain";  // JSP 페이지 이름
+        return "mapMain";
     }
 
     @RequestMapping(value = "/map/insertLocation.do")

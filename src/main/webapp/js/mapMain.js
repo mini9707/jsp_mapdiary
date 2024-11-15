@@ -74,18 +74,18 @@ $(document).ready(function() {
             const name = prompt("위치의 이름을 입력하세요:");
             if (name) {
                 $.ajax({
-                    url: contextPath + "/map/insertLocation.do",  // 컨트롤러 매핑 경로로 수정
+                    url: contextPath + "/map/insertLocation.do",
                     type: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        locationNm: name,    // LocationVO 필드명에 맞게 수정
+                        locationNm: name,
                         locationX: coordinates[0],
                         locationY: coordinates[1]
                     }),
                     success: function(response) {
                         const pointFeature = new ol.Feature({
                             geometry: new ol.geom.Point(event.coordinate),
-                            name: response.locationNm  // LocationVO 필드명에 맞게 수정
+                            name: response.locationNm
                         });
                         vectorSource.addFeature(pointFeature);
                     },
@@ -100,14 +100,14 @@ $(document).ready(function() {
     // 위치 데이터 로드
     function loadLocations() {
         $.ajax({
-            url: contextPath + "/map/selectLocationList.do",  // 컨트롤러 매핑 경로로 수정
+            url: contextPath + "/map/selectLocationList.do",
             type: "GET",
             success: function(locations) {
                 locations.forEach(location => {
-                    const coord = ol.proj.fromLonLat([location.locationX, location.locationY]);  // LocationVO 필드명에 맞게 수정
+                    const coord = ol.proj.fromLonLat([location.locationX, location.locationY]);
                     const pointFeature = new ol.Feature({
                         geometry: new ol.geom.Point(coord),
-                        name: location.locationNm  // LocationVO 필드명에 맞게 수정
+                        name: location.locationNm
                     });
                     vectorSource.addFeature(pointFeature);
                 });
