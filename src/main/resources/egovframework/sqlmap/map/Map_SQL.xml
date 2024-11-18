@@ -3,10 +3,11 @@
 
 <mapper namespace="Map">
     <insert id="insertLocation" parameterType="locationVO">
-        INSERT INTO LOCATION
-            (LOCATION_NM, LOCATION_X, LOCATION_Y)
+        INSERT INTO locations
+            (LOCATION_NM, LOCATION_X, LOCATION_Y, LOCATION_DESC, geom)
         VALUES
-            (#{locationNm}, #{locationX}, #{locationY})
+            (#{locationNm}, #{locationX}, #{locationY}, #{locationDesc},
+             ST_SetSRID(ST_MakePoint(#{locationX}, #{locationY}), 4326))
     </insert>
 
     <select id="selectLocationList" resultType="locationVO">
@@ -14,8 +15,9 @@
             LOCATION_ID as locationId,
             LOCATION_NM as locationNm,
             LOCATION_X as locationX,
-            LOCATION_Y as locationY
-        FROM LOCATION
+            LOCATION_Y as locationY,
+            LOCATION_DESC as locationDesc
+        FROM locations
         ORDER BY LOCATION_ID DESC
     </select>
 </mapper>

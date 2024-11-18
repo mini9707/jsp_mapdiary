@@ -1,4 +1,141 @@
 #map {
     width: 100%;
     height: 700px;
+    position: relative;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.popup-content div {
+    margin-bottom: 10px;
+}
+
+.popup-content input,
+.popup-content textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.popup-content textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.button-group {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.button-group button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-group button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button-group button[type="button"] {
+    background-color: #f44336;
+    color: white;
+}
+
+.info-popup {
+    position: absolute;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    border: 1px solid #ddd;
+}
+
+.info-content {
+    position: relative;
+    width: 250px;
+    padding-right: 20px;
+}
+
+.info-popup:after,
+.info-popup:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.info-popup:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.info-popup:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-top-color: #ddd;
+    border-width: 11px;
+    margin-left: -11px;
+}
+
+.info-content h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.info-content p {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#closeInfoBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #999;
+}
+
+#closeInfoBtn:hover {
+    color: #666;
+}
+
+.button-group button:hover {
+    opacity: 0.8;
 }

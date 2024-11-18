@@ -5,13 +5,13 @@ public class LocationVO {
 
     private Long locationId;
     private String locationNm;
+    private String locationDesc;
     private double locationX;
     private double locationY;
 
     public Long getLocationId() {
         return locationId;
     }
-
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
@@ -19,15 +19,16 @@ public class LocationVO {
     public String getLocationNm() {
         return locationNm;
     }
-
     public void setLocationNm(String locationNm) {
         this.locationNm = locationNm;
     }
 
+    public String getLocationDesc() { return locationDesc; }
+    public void setLocationDesc(String locationDesc) { this.locationDesc = locationDesc; }
+
     public double getLocationX() {
         return locationX;
     }
-
     public void setLocationX(double locationX) {
         this.locationX = locationX;
     }
@@ -35,7 +36,6 @@ public class LocationVO {
     public double getLocationY() {
         return locationY;
     }
-
     public void setLocationY(double locationY) {
         this.locationY = locationY;
     }
