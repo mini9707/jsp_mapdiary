@@ -27,7 +27,24 @@
 </head>
 <body>
 <h2>Map with Points</h2>
+<!-- 메뉴 버튼 추가 -->
+<button id="menu_btn" class="menu-button">
+    <i class="fas fa-bars"></i>
+</button>
+<button onclick="testGetLocations()">위치정보 테스트</button>
 <button id="layer_btn">레이어 숨기기</button>
+
+<!-- 사이드바 추가 -->
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h3>현재 지도 범위 내 위치</h3>
+        <button id="close_sidebar" class="close-button">&times;</button>
+    </div>
+    <div id="locations-list" class="locations-list">
+        <!-- 위치 목록이 여기에 동적으로 추가됨 -->
+    </div>
+</div>
+
 <div id="map"></div>
 
 <!-- 입력 폼 팝업 -->
