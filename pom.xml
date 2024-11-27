@@ -33,6 +33,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+
         <repository>
             <id>egovframe</id>
             <url>http://maven.egovframe.kr:8080/maven/</url>
@@ -43,6 +44,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
         <repository>
             <id>egovframe2</id>
             <url>http://www.egovframe.go.kr/maven/</url>
@@ -144,10 +146,17 @@
             <artifactId>poi</artifactId>
             <version>4.1.2</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>4.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
     </dependencies>

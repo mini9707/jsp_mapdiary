@@ -26,12 +26,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapMain.css" type="text/css">
 </head>
 <body>
-<h2>Map with Points</h2>
+<h2>MapDiary</h2>
 <!-- 메뉴 버튼 추가 -->
 <button id="menu_btn" class="menu-button">
     <i class="fas fa-bars"></i>
 </button>
-<button onclick="testGetLocations()">위치정보 테스트</button>
 <button id="layer_btn">레이어 숨기기</button>
 
 <!-- 사이드바 추가 -->

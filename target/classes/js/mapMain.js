@@ -1,13 +1,20 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // OpenLayers 지도 설정
     const map = new ol.Map({
         target: 'map',
         layers: [
-            new ol.layer.Tile({ source: new ol.source.OSM() })
+            new ol.layer.Tile({source: new ol.source.OSM()})
         ],
         view: new ol.View({
             center: ol.proj.fromLonLat([126.9780, 37.5665]),
             zoom: 10
+        })
+    });
+
+    const iconStyle = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [0.5, 1],
+            src: '/js/marker.png'
         })
     });
 
@@ -22,9 +29,11 @@ $(document).ready(function() {
                 'FORMAT': 'image/png',
                 'TRANSPARENT': true
             },
+            style: iconStyle,
             serverType: 'geoserver'
         })
     });
+
     map.addLayer(wmsLayer);
 
     // 교통정보 레이어
@@ -55,7 +64,7 @@ $(document).ready(function() {
     map.addLayer(itsLyr);
 
     // 레이어 ON/OFF 이벤트
-    $("#layer_btn").click(function() {
+    $("#layer_btn").click(function () {
         const isVisible = itsLyr.getVisible();
         itsLyr.setVisible(!isVisible);
         $(this).text(isVisible ? "레이어 보이기" : "레이어 숨기기");
@@ -63,7 +72,7 @@ $(document).ready(function() {
 
     // 클릭 이벤트
     let clickedCoordinate = null;
-    map.on('singleclick', function(evt) {
+    map.on('singleclick', function (evt) {
         const viewResolution = map.getView().getResolution();
         const wmsSource = wmsLayer.getSource();
         const url = wmsSource.getFeatureInfoUrl(
@@ -77,7 +86,7 @@ $(document).ready(function() {
             $.ajax({
                 url: url,
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     if (response.features && response.features.length > 0) {
                         // WMS 레이어의 포인트를 클릭한 경우
                         const feature = response.features[0];
@@ -108,7 +117,7 @@ $(document).ready(function() {
     });
 
     // 폼 제출 이벤트
-    $('#locationForm').submit(function(e) {
+    $('#locationForm').submit(function (e) {
         e.preventDefault();
         console.log("Form submitted");
 
@@ -125,7 +134,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(locationData),
-            success: function(response) {
+            success: function (response) {
                 $('#locationForm')[0].reset();
                 $('#popup-form').hide();
 
@@ -134,126 +143,46 @@ $(document).ready(function() {
                     'time': Date.now()
                 });
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("위치 저장 중 오류 발생:", error);
             }
         });
     });
 
     // 취소 버튼 이벤트
-    $('#cancelBtn').click(function() {
+    $('#cancelBtn').click(function () {
         console.log("Cancel clicked");
         $('#locationForm')[0].reset();
         $('#popup-form').hide();
     });
 
     // 정보 팝업 닫기 버튼 이벤트
-    $('#closeInfoBtn').click(function() {
+    $('#closeInfoBtn').click(function () {
         console.log("Close info clicked");
         $('#info-popup').hide();
     });
 
     // 팝업 외부 클릭 시 닫기
-    $(document).on('click', function(e) {
+    $(document).on('click', function (e) {
         if ($(e.target).hasClass('popup-overlay')) {
             $('#popup-form').hide();
         }
     });
 
-    // 지도 범위 내 위치정보 가져오기
-    // function updateLocationsList() {
-    //     const wmsSource = wmsLayer.getSource();
-    //     const extent = map.getView().calculateExtent(map.getSize());
-    //     const center = ol.extent.getCenter(extent);
-    //
-    //     // BBOX 좌표 변환
-    //     const transformedExtent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
-    //     const transformedCenter = ol.proj.transform(center, 'EPSG:3857', 'EPSG:4326');
-    //
-    //     console.log('Center point:', transformedCenter);
-    //     console.log('Transformed Extent:', transformedExtent);
-    //
-    //     const url = wmsSource.getFeatureInfoUrl(
-    //         center,  // 중심점 사용
-    //         map.getView().getResolution(),
-    //         'EPSG:4326',
-    //         {
-    //             'INFO_FORMAT': 'application/json',
-    //             'FEATURE_COUNT': 1000,
-    //             'QUERY_LAYERS': 'new:locations',
-    //             'LAYERS': 'new:locations',
-    //             'WIDTH': map.getSize()[0],
-    //             'HEIGHT': map.getSize()[1],
-    //             'BBOX': transformedExtent.join(','),  // 변환된 BBOX 사용
-    //             'SRS': 'EPSG:4326',
-    //             'VERSION': '1.1.0'
-    //         }
-    //     );
-    //
-    //     if (url) {
-    //         $.ajax({
-    //             url: url,
-    //             dataType: 'json',
-    //             success: function(response) {
-    //                 console.log('WMS Response:', response);
-    //
-    //                 const locationsList = $('#locations-list');
-    //                 locationsList.empty();
-    //
-    //                 if (response.features && response.features.length > 0) {
-    //                     response.features.forEach(feature => {
-    //                         const properties = feature.properties;
-    //                         const locationItem = $(`
-    //                         <div class="location-item">
-    //                             <h4>${properties.location_nm}</h4>
-    //                             <p>${properties.location_desc}</p>
-    //                         </div>
-    //                     `);
-    //
-    //                         locationItem.click(function() {
-    //                             const coords = ol.proj.fromLonLat([
-    //                                 feature.geometry.coordinates[0],
-    //                                 feature.geometry.coordinates[1]
-    //                             ]);
-    //
-    //                             map.getView().animate({
-    //                                 center: coords,
-    //                                 zoom: 15,
-    //                                 duration: 1000
-    //                             });
-    //                         });
-    //
-    //                         locationsList.append(locationItem);
-    //                     });
-    //                 } else {
-    //                     locationsList.append('<p>저장된 위치가 없습니다.</p>');
-    //                 }
-    //             },
-    //             error: function(error) {
-    //                 console.error("위치 정보 로딩 중 오류 발생:", error);
-    //                 console.log("에러 상세:", error.responseText);
-    //                 locationsList.append('<p>위치 정보를 불러오는데 실패했습니다.</p>');
-    //             }
-    //         });
-    //     }
-    // }
-
     // 지도 이동 완료 시 위치 목록 업데이트
-    map.on('moveend', function() {
+    map.on('moveend', function () {
         if ($('#sidebar').hasClass('active')) {
             $('#menu_btn').trigger('click');  // 메뉴 버튼 클릭 이벤트 트리거
         }
     });
 
     // 사이드바 토글 기능
-    $('#menu_btn').click(function() {
+    $('#menu_btn').click(function () {
         $('#sidebar').toggleClass('active');
 
         // 현재 지도의 범위 가져오기
         const extent = map.getView().calculateExtent();
         const transformedExtent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
-
-        console.log('현재 지도 범위(EPSG:4326):', transformedExtent);
 
         // WFS 요청 파라미터
         const wfsUrl = 'http://localhost:8080/geoserver/new/ows';
@@ -273,7 +202,7 @@ $(document).ready(function() {
             url: wfsUrl,
             data: wfsParams,
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 console.log('현재 영역 내 위치 정보:', response);
 
                 if (response.features && response.features.length > 0) {
@@ -294,11 +223,11 @@ $(document).ready(function() {
                         </div>
                     `);
 
-                        locationItem.click(function() {
+                        locationItem.click(function () {
                             const coords = ol.proj.fromLonLat(coordinates);
                             map.getView().animate({
                                 center: coords,
-                                zoom: 15,
+                                zoom: 18,
                                 duration: 1000
                             });
                         });
@@ -309,7 +238,7 @@ $(document).ready(function() {
                     $('#locations-list').html('<p>현재 지도 영역에 저장된 위치가 없습니다.</p>');
                 }
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('WFS 요청 에러:', error);
                 $('#locations-list').html('<p>위치 정보를 불러오는데 실패했습니다.</p>');
             }
@@ -317,8 +246,7 @@ $(document).ready(function() {
     });
 
 
-
-    $('#close_sidebar').click(function() {
+    $('#close_sidebar').click(function () {
         $('#sidebar').removeClass('active');
     });
 });
