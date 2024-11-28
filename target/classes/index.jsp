@@ -5,49 +5,35 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MapDiary</title>
-
-    <!-- index.css 파일을 JSP 파일에 연결 -->
-    <link rel="stylesheet" href="<c:url value='/css/index.css' />" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/css/index.css'/>" type="text/css">
+    <title>My Webcrumbs Plugin</title>
 </head>
 <body>
 <div id="webcrumbs">
-    <div class="w-[900px] bg-white shadow rounded-lg">
-        <header class="flex items-center justify-between px-6 py-4">
-            <div class="flex items-center space-x-4">
-                <div class="w-[30px] h-[30px] bg-neutral-900 rounded-md flex items-center justify-center text-neutral-50">
-                    <span class="material-symbols-outlined">menu</span>
-                </div>
-                <h1 class="text-neutral-900 font-title text-lg">MapDiary</h1>
-            </div>
-            <nav class="flex items-center space-x-6">
-                <a href="#" class="text-neutral-900 hover:text-primary-700">
-                    Community
-                </a>
-                <a href="#" class="text-neutral-900 hover:text-primary-700">
-                    My Place
-                </a>
-                <a href="#" class="text-neutral-900 hover:text-primary-700">
-                    __?
-                </a>
+    <div className="w-[1200px] bg-white shadow-lg rounded-lg">
+        <header className="flex items-center justify-between px-6 py-4">
+            <div className="text-primary-950 font-title text-lg">mapdiary</div>
+            <nav className="flex items-center gap-6">
+                <a href="#community" className="text-neutral-950 hover:text-primary-500">Community</a>
+                <a href="#myplace" className="text-neutral-950 hover:text-primary-500">Myplace</a>
             </nav>
-            <div class="flex items-center space-x-4">
-                <button class="w-[80px] h-[40px] bg-primary-800 text-primary-50 rounded-md">
-                    Sign In
-                </button>
-                <button class="w-[90px] h-[40px] bg-primary-100 text-primary-800 rounded-md">
-                    Register
-                </button>
+            <div className="flex gap-4">
+                <button className="px-5 py-2 bg-primary-500 text-primary-50 rounded-md">로그인</button>
+                <button className="px-5 py-2 bg-neutral-500 text-neutral-50 rounded-md">회원가입</button>
             </div>
         </header>
-
-        <!-- 본문 내용 -->
-        <div class="px-4 py-4">
-            <div class="w-full h-[calc(100vh-80px)] bg-neutral-200 rounded-lg" style="margin: 10px;"></div>
+        <div className="flex justify-between px-6 py-2 items-center">
+            <button className="px-4 py-2 bg-red-500 text-primary-50 rounded-md">HOT</button>
+            <div className="flex gap-4">
+                <button className="px-4 py-2 bg-green-500 text-primary-50 rounded-md">교통레이어</button>
+                <button className="px-4 py-2 bg-green-500 text-primary-50 rounded-md">CCTV 레이어</button>
+            </div>
+        </div>
+        <div className="w-full h-[600px] bg-neutral-200 rounded-lg mt-4">
+            {/* Map will be added here */}
         </div>
     </div>
 </div>

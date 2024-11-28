@@ -4,16 +4,104 @@
     position: relative;
 }
 
-h2 {
-    margin: 20px 0;
-    padding-left: 20px;
+
+
+
+/* 네비게이션 바 스타일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#layer_btn {
-    margin-top: 30px;
-    margin-left: 20px;
-    margin-bottom: 10px;
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
 }
+
+/* 네비게이션 링크 스타일 */
+.nav-links {
+    display: flex;
+    gap: 20px; /* 링크 간격 */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #4CAF50; /* 링크 색상 */
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline; /* 마우스 오버 시 밑줄 */
+}
+
+/* 버튼 스타일 */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4CAF50; /* 기본 색상 */
+    color: white;
+}
+
+.auth-buttons button:hover {
+    opacity: 0.8;
+}
+
+/* 레이어 버튼 스타일 */
+.layer-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: space-between; /* 양쪽 정렬 */
+    width: 100%; /* 전체 너비 사용 */
+}
+
+.layer-buttons #hot_btn {
+    margin-right: auto; /* 왼쪽으로 붙이기 */
+}
+
+.layer-buttons #traffic_layer_btn {
+    margin-right: 0; /* CCTV 버튼과 붙이기 */
+}
+
+.layer-buttons #cctv_layer_btn {
+    margin-left: 0; /* CCTV 버튼과 붙이기 */
+}
+
+.layer-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.layer-buttons #hot_btn {
+    background-color: #FF5733; /* Red */
+    color: white;
+}
+
+.layer-buttons #traffic_layer_btn,
+.layer-buttons #cctv_layer_btn {
+    background-color: #007BFF; /* Blue */
+    color: white;
+}
+
+
+
+
+
+
+
 
 .popup-overlay {
     position: fixed;
@@ -153,6 +241,7 @@ h2 {
 
 /* 메뉴 버튼 스타일 */
 .menu-button {
+    margin-top: 100px;
     position: fixed;
     top: 70px;
     left: 20px;
@@ -166,7 +255,7 @@ h2 {
 }
 
 .menu-button:hover {
-    background: #f0f0f0;
+    background: #000000;
 }
 
 /* 사이드바 스타일 */

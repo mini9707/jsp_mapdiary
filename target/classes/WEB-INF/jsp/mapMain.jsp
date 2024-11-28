@@ -26,14 +26,33 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapMain.css" type="text/css">
 </head>
 <body>
-<h2>MapDiary</h2>
+
+<!-- 네비게이션 바 추가 -->
+<div class="header">
+    <div class="logo">MapDiary</div>
+    <div class="nav-links">
+        <a href="${pageContext.request.contextPath}/community.do">Community</a>
+        <a href="${pageContext.request.contextPath}/myplace.do">MyPlace</a>
+    </div>
+    <div class="auth-buttons">
+        <button id="login_btn" onclick="location.href='${pageContext.request.contextPath}/login.do'">로그인</button>
+        <button id="signup_btn" onclick="location.href='${pageContext.request.contextPath}/signup.do'">회원가입</button>
+    </div>
+</div>
+
+<!-- 레이어 버튼 추가 -->
+<div class="layer-buttons">
+    <button id="hot_btn">Hot</button>
+    <button id="traffic_layer_btn">교통 레이어</button>
+    <button id="cctv_layer_btn">CCTV 레이어</button>
+</div>
+
 <!-- 메뉴 버튼 추가 -->
 <button id="menu_btn" class="menu-button">
     <i class="fas fa-bars"></i>
 </button>
-<button id="layer_btn">레이어 숨기기</button>
 
-<!-- 사이드바 추가 -->
+<!-- 사이드바 추가 -->`
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
         <h3>현재 지도 범위 내 위치</h3>

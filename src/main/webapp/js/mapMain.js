@@ -64,7 +64,7 @@ $(document).ready(function () {
     map.addLayer(itsLyr);
 
     // 레이어 ON/OFF 이벤트
-    $("#layer_btn").click(function () {
+    $("#traffic_layer_btn").click(function () {
         const isVisible = itsLyr.getVisible();
         itsLyr.setVisible(!isVisible);
         $(this).text(isVisible ? "레이어 보이기" : "레이어 숨기기");
