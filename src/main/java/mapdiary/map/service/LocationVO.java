@@ -4,6 +4,7 @@ public class LocationVO {
     private static final long serialVersionUID = 1L;
 
     private Long locationId;
+    private Long userId;
     private String locationNm;
     private String locationDesc;
     private double locationX;
@@ -15,6 +16,9 @@ public class LocationVO {
     public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public String getLocationNm() {
         return locationNm;

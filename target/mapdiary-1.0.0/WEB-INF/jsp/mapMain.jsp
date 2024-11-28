@@ -20,13 +20,17 @@
     <!-- contextPath 설정 -->
     <script type="text/javascript">
         var contextPath = "${pageContext.request.contextPath}";
+        var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}"; // 세션에서 사용자 객체 가져오기
     </script>
 
     <!-- 커스텀 CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapMain.css" type="text/css">
 </head>
 <body>
-
+<div>
+    <h2>세션 사용자 정보 확인</h2>
+    <p>사용자 이름: ${sessionScope.user != null ? sessionScope.user.username : '로그인하지 않음'}</p>
+</div>
 <!-- 네비게이션 바 추가 -->
 <div class="header">
     <div class="logo">MapDiary</div>
@@ -35,8 +39,10 @@
         <a href="${pageContext.request.contextPath}/myplace.do">MyPlace</a>
     </div>
     <div class="auth-buttons">
-        <button id="login_btn" onclick="location.href='${pageContext.request.contextPath}/login.do'">로그인</button>
-        <button id="signup_btn" onclick="location.href='${pageContext.request.contextPath}/signup.do'">회원가입</button>
+        <span id="username" style="display: none;"></span>
+        <button id="login_btn" style="display: none;" onclick="location.href='${pageContext.request.contextPath}/login.do'">로그인</button>
+        <button id="signup_btn" style="display: none;" onclick="location.href='${pageContext.request.contextPath}/signup.do'">회원가입</button>
+        <button id="logout_btn" style="display: none;">로그아웃</button>
     </div>
 </div>
 
@@ -85,6 +91,7 @@
         </form>
     </div>
 </div>
+
 
 <!-- 정보 표시 팝업 -->
 <div id="info-popup" class="info-popup">

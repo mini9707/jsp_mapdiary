@@ -2,6 +2,7 @@ package mapdiary.user.web;
 
 import mapdiary.user.service.UserService;
 import mapdiary.user.service.UserVO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -39,6 +41,18 @@ public class UserController {
             e.printStackTrace();
             return "redirect:/signup.jsp?error=true"; // 오류 발생 시 회원가입 페이지로 리다이렉트
         }
+    }
+
+    @RequestMapping(value = "/logout.do", method = RequestMethod.POST)
+    @ResponseBody // AJAX 요청에 대한 응답을 JSON 형식으로 반환
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // 현재 세션을 가져옵니다.
+
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+        }
+
+        return ResponseEntity.ok("로그아웃 성공"); // 성공 메시지 반환
     }
 
     @RequestMapping(value = "/login.do", method = RequestMethod.GET)

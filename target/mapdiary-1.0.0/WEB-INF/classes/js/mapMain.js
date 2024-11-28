@@ -1,4 +1,37 @@
 $(document).ready(function () {
+    if (username) {
+        // 로그인 상태일 경우
+        $('#username').text(username + '님').show(); // 사용자 이름 표시
+        $('#logout_btn').show(); // 로그아웃 버튼 표시
+        $('#login_btn').hide(); // 로그인 버튼 숨기기
+        $('#signup_btn').hide(); // 회원가입 버튼 숨기기
+    } else {
+        // 로그인하지 않은 상태일 경우
+        $('#login_btn').show(); // 로그인 버튼 표시
+        $('#signup_btn').show(); // 회원가입 버튼 표시
+        $('#logout_btn').hide(); // 로그아웃 버튼 숨기기
+        $('#username').hide(); // 사용자 이름 숨기기
+    }
+
+    // 로그아웃 버튼 클릭 이벤트
+    $('#logout_btn').on('click', function() {
+        // 로그아웃 요청을 서버에 보냄
+        $.ajax({
+            url: contextPath + "/logout.do", // 로그아웃 URL
+            type: "POST",
+            success: function(response) {
+                console.log(response); // 서버의 응답 출력
+                // 로그아웃 성공 시 페이지 새로고침
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error('로그아웃 실패:', error);
+                console.error('서버 응답:', xhr.responseText); // 서버 응답 출력
+                alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
+            }
+        });
+    });
+
     // OpenLayers 지도 설정
     const map = new ol.Map({
         target: 'map',
@@ -149,6 +182,7 @@ $(document).ready(function () {
         });
     });
 
+
     // 취소 버튼 이벤트
     $('#cancelBtn').click(function () {
         console.log("Cancel clicked");
@@ -249,6 +283,9 @@ $(document).ready(function () {
     $('#close_sidebar').click(function () {
         $('#sidebar').removeClass('active');
     });
+
+
+
 });
 
 

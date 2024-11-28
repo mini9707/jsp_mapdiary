@@ -33,7 +33,7 @@
         <button type="submit">로그인</button>
     </div>
 </form>
-<p>아직 회원이 아니신가요? <a href="${pageContext.request.contextPath}/signup.jsp">회원가입</a></p>
+<p>아직 회원이 아니신가요? <a href="${pageContext.request.contextPath}/signup.do">회원가입</a></p>
 <script src="<c:url value='/js/login.js'/>"></script>
 </body>
 </html>
