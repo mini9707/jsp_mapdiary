@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SharedLocation">
+    <insert id="insertSharedLocation" parameterType="sharedLocationVO">
+        INSERT INTO Shared_Locations (location_id, shared_user_id)
+        VALUES (#{locationId}, #{sharedUserId})
+    </insert>
+
+    <delete id="deleteSharedLocation" parameterType="sharedLocationVO">
+        DELETE FROM Shared_Locations WHERE location_id = #{locationId} AND shared_user_id = #{sharedUserId}
+    </delete>
+</mapper>

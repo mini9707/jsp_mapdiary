@@ -10,18 +10,18 @@ import java.util.List;
 public class UserDAO extends EgovAbstractMapper {
 
     public void insertUser(UserVO userVO) {
-        insert("User.insertUser", userVO); // MyBatis 매핑 ID 사용
+        insert("User.insertUser", userVO);
     }
 
     public UserVO checkUsername(String username) {
-        return selectOne("User.checkUsername", username); // 사용자 이름 중복 체크
+        return selectOne("User.checkUsername", username);
     }
 
     public UserVO checkEmail(String email) {
-        return selectOne("User.checkEmail", email); // 이메일 중복 체크
+        return selectOne("User.checkEmail", email);
     }
 
     public UserVO selectOne(UserVO userVO) {
-        return selectOne("User.selectOne", userVO); // 사용자 정보 조회
+        return selectOne("User.selectOne", userVO);
     }
 }

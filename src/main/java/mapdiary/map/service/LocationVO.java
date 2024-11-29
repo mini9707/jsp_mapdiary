@@ -9,6 +9,7 @@ public class LocationVO {
     private String locationDesc;
     private double locationX;
     private double locationY;
+    private boolean isShared;
 
     public Long getLocationId() {
         return locationId;
@@ -43,4 +44,7 @@ public class LocationVO {
     public void setLocationY(double locationY) {
         this.locationY = locationY;
     }
+
+    public boolean getIsShared() { return isShared; }
+    public void setIsShared(boolean isShared) { this.isShared = isShared; }
 }

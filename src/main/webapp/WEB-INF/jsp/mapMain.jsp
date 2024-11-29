@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Map</title>
@@ -20,17 +21,14 @@
     <!-- contextPath 설정 -->
     <script type="text/javascript">
         var contextPath = "${pageContext.request.contextPath}";
-        var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}"; // 세션에서 사용자 객체 가져오기
+        var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}";// 세션에서 사용자 객체 가져오기
     </script>
 
     <!-- 커스텀 CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapMain.css" type="text/css">
 </head>
+
 <body>
-<div>
-    <h2>세션 사용자 정보 확인</h2>
-    <p>사용자 이름: ${sessionScope.user != null ? sessionScope.user.username : '로그인하지 않음'}</p>
-</div>
 <!-- 네비게이션 바 추가 -->
 <div class="header">
     <div class="logo">MapDiary</div>

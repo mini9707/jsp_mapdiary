@@ -13,6 +13,8 @@ $(document).ready(function () {
         $('#username').hide(); // 사용자 이름 숨기기
     }
 
+
+
     // 로그아웃 버튼 클릭 이벤트
     $('#logout_btn').on('click', function() {
         // 로그아웃 요청을 서버에 보냄
@@ -20,7 +22,6 @@ $(document).ready(function () {
             url: contextPath + "/logout.do", // 로그아웃 URL
             type: "POST",
             success: function(response) {
-                console.log(response); // 서버의 응답 출력
                 // 로그아웃 성공 시 페이지 새로고침
                 location.reload();
             },
@@ -152,7 +153,6 @@ $(document).ready(function () {
     // 폼 제출 이벤트
     $('#locationForm').submit(function (e) {
         e.preventDefault();
-        console.log("Form submitted");
 
         const coordinates = ol.proj.toLonLat(clickedCoordinate);
         const locationData = {
@@ -185,14 +185,12 @@ $(document).ready(function () {
 
     // 취소 버튼 이벤트
     $('#cancelBtn').click(function () {
-        console.log("Cancel clicked");
         $('#locationForm')[0].reset();
         $('#popup-form').hide();
     });
 
     // 정보 팝업 닫기 버튼 이벤트
     $('#closeInfoBtn').click(function () {
-        console.log("Close info clicked");
         $('#info-popup').hide();
     });
 
@@ -230,18 +228,12 @@ $(document).ready(function () {
             bbox: transformedExtent.join(',') + ',EPSG:4326'  // BBOX 파라미터 추가
         };
 
-        console.log('WFS 요청 파라미터:', wfsParams);
-
         $.ajax({
             url: wfsUrl,
             data: wfsParams,
             dataType: 'json',
             success: function (response) {
-                console.log('현재 영역 내 위치 정보:', response);
-
                 if (response.features && response.features.length > 0) {
-                    console.log('현재 영역 내 위치 개수:', response.features.length);
-
                     const locationsList = $('#locations-list');
                     locationsList.empty();
 

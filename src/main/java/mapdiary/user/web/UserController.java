@@ -61,7 +61,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signup.do", method = RequestMethod.GET)
-    public String showSignupPage() {
+    public String showSignupPage(@RequestBody HttpSession session) {
+        
         return "signup"; // 회원가입 페이지로 이동
     }
 }
