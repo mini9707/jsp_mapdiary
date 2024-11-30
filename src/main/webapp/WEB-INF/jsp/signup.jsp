@@ -16,7 +16,6 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css"> <!-- CSS 파일 연결 -->
-    <script src="${pageContext.request.contextPath}/js/signup.js"></script> <!-- signup.js 추가 -->
 </head>
 <body>
 <h2>회원가입</h2>
@@ -38,5 +37,6 @@
     </div>
 </form>
 <p>이미 회원이신가요? <a href="${pageContext.request.contextPath}/login.do">로그인</a></p>
+<script src="<c:url value='/js/signup.js'/>"></script>
 </body>
 </html>

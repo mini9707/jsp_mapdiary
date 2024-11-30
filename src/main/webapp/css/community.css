@@ -1,0 +1,91 @@
+/* 네비게이션 바 스타일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.auth-buttons button:hover {
+    opacity: 0.8;
+}
+
+/* 게시글 목록 스타일 */
+.community-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.location-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.location-card:hover {
+    transform: translateY(-2px);
+}
+
+.location-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.location-desc {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.location-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}

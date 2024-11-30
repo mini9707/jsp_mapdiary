@@ -25,23 +25,11 @@
   </script>
 
   <!-- 커스텀 CSS -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapMain.css" type="text/css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" type="text/css">
 </head>
 <body>
-<!-- 네비게이션 바 -->
-<div class="header">
-  <div class="logo">MapDiary</div>
-  <div class="nav-links">
-    <a href="${pageContext.request.contextPath}/community.do">Community</a>
-    <a href="${pageContext.request.contextPath}/myplace.do">MyPlace</a>
-  </div>
-  <div class="auth-buttons">
-    <span id="username" style="display: none;"></span>
-    <button id="login_btn" style="display: none;" onclick="location.href='${pageContext.request.contextPath}/login.do'">로그인</button>
-    <button id="signup_btn" style="display: none;" onclick="location.href='${pageContext.request.contextPath}/signup.do'">회원가입</button>
-    <button id="logout_btn" style="display: none;">로그아웃</button>
-  </div>
-</div>
+<!-- 네비게이션 바 include -->
+<jsp:include page="/WEB-INF/jsp/nav.jsp" />
 
 <!-- 레이어 버튼 -->
 <div class="layer-buttons">
@@ -49,11 +37,6 @@
   <button id="traffic_layer_btn">교통 레이어</button>
   <button id="cctv_layer_btn">CCTV 레이어</button>
 </div>
-
-<!-- 메뉴 버튼 -->
-<button id="menu_btn" class="menu-button">
-  <i class="fas fa-bars"></i>
-</button>
 
 <!-- 사이드바 -->
 <div id="sidebar" class="sidebar">

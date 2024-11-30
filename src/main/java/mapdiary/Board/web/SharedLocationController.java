@@ -4,17 +4,31 @@ import mapdiary.Board.service.SharedLocationService;
 import mapdiary.Board.service.SharedLocationVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SharedLocationController {
 
     @Resource(name = "sharedLocationService")
     private SharedLocationService sharedLocationService;
+
+    @RequestMapping(value = "/community.do")
+    public String getCommunityPage(Model model) {
+        List<Map<String, Object>> sharedLocations = sharedLocationService.getSharedLocations();
+        // 데이터 확인을 위한 로그
+        for (Map<String, Object> location : sharedLocations) {
+            System.out.println("Location data: " + location);
+        }
+        model.addAttribute("sharedLocations", sharedLocations);
+        return "community";
+    }
 
     // 장소 공유 저장
     @RequestMapping(value = "/saveSharedLocation.do", method = RequestMethod.POST)

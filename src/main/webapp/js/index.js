@@ -138,6 +138,19 @@ $(document).ready(function () {
                             left: (pixel[0] - element.width() / 2) + 'px',
                             top: (pixel[1] - element.height() - 20) + 'px'
                         });
+
+                        // 공유 체크박스 초기화
+                        $('#shareLocationCheckbox').prop('checked', false); // 초기화
+
+                        // locationId 저장
+                        $('#saveSharedLocationBtn').data('locationId', properties.location_id); // location_id를 data 속성에 저장
+
+                        // is_shared 상태에 따라 체크박스 설정
+                        if (properties.is_shared) {
+                            $('#shareLocationCheckbox').prop('checked', true); // 체크박스 체크
+                        } else {
+                            $('#shareLocationCheckbox').prop('checked', false); // 체크박스 해제
+                        }
                     } else {
                         // 빈 공간 클릭한 경우
                         clickedCoordinate = evt.coordinate;
@@ -245,7 +258,7 @@ $(document).ready(function () {
                         <div class="location-item">
                             <h4>${properties.location_nm || '이름 없음'}</h4>
                             <p>${properties.location_desc || '설명 없음'}</p>
-                            <p>좌표: ${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}</p>
+                            <p>작성자: ${properties.user_id}</p>
                         </div>
                     `);
 

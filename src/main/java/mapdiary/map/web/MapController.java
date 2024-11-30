@@ -5,7 +5,6 @@ import mapdiary.map.service.MapService;
 import mapdiary.user.service.UserVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,11 +21,7 @@ public class MapController {
     @Resource(name = "mapService")
     private MapService mapService;
 
-    @RequestMapping("/test.do")
-    public String test(Model model) {
-        return "mapMain";
-    }
-
+    // My Place 페이지 이동
     @RequestMapping("/myplace.do")
     public String myPlace(HttpSession session) {
         UserVO user = (UserVO) session.getAttribute("user");
@@ -38,7 +33,6 @@ public class MapController {
         return "myplace";
     }
 
-    // 서비스 컨트롤러
     // 위치 정보 저장
     @RequestMapping(value = "/map/insertLocation.do")
     @ResponseBody

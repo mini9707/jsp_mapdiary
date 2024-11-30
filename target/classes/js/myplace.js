@@ -124,6 +124,9 @@ $(document).ready(function () {
                         const feature = response.features[0];
                         const properties = feature.properties;
 
+                        // properties 객체 출력
+                        console.log("Properties:", properties); // properties 객체 확인
+
                         $('#info-title').text(properties.location_nm);
                         $('#info-description').text(properties.location_desc);
 
@@ -138,10 +141,17 @@ $(document).ready(function () {
                         });
 
                         // 공유 체크박스 초기화
-                        $('#shareLocationCheckbox').prop('checked', false);
+                        $('#shareLocationCheckbox').prop('checked', false); // 초기화
 
                         // locationId 저장
                         $('#saveSharedLocationBtn').data('locationId', properties.location_id); // location_id를 data 속성에 저장
+
+                        // is_shared 상태에 따라 체크박스 설정
+                        if (properties.is_shared) {
+                            $('#shareLocationCheckbox').prop('checked', true); // 체크박스 체크
+                        } else {
+                            $('#shareLocationCheckbox').prop('checked', false); // 체크박스 해제
+                        }
                     } else {
                         // 빈 공간 클릭한 경우
                         clickedCoordinate = evt.coordinate;
@@ -282,18 +292,16 @@ $(document).ready(function () {
         }
     });
 
+    // 사이드바 항상 보이게 설정
+    $('#sidebar').css('display', 'block');
+
     // 지도 이동 완료 시 위치 목록 업데이트
     map.on('moveend', function () {
-        if ($('#sidebar').hasClass('active')) {
-            $('#menu_btn').trigger('click');  // 메뉴 버튼 클릭 이벤트 트리거
-        }
+        loadLocations(); // 지도 이동 시 위치 목록을 로드하는 함수 호출
     });
 
-    // 사이드바 토글 기능
-    $('#menu_btn').click(function () {
-        $('#sidebar').toggleClass('active');
-
-        // 현재 지도의 범위 가져오기
+    // 위치 목록 로드 함수
+    function loadLocations() {
         const extent = map.getView().calculateExtent();
         const transformedExtent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326');
 
@@ -306,9 +314,7 @@ $(document).ready(function () {
             typeName: 'new:locations',
             outputFormat: 'application/json',
             maxFeatures: 1000,
-            // bbox: transformedExtent.join(',') + ',EPSG:4326',  // BBOX 파라미터 추가
-            // WFS 요청에서 CQL_FILTER 와 BBOX는 상호 배타적..!  ※ 같이 사용 못함 ※
-            CQL_FILTER: `user_id = ${numericUserId}` // userId로 필터링 추가
+            CQL_FILTER: `user_id = ${numericUserId} AND bbox(geom, ${transformedExtent[0]}, ${transformedExtent[1]}, ${transformedExtent[2]}, ${transformedExtent[3]})`
         };
 
         $.ajax({
@@ -325,12 +331,12 @@ $(document).ready(function () {
                         const coordinates = feature.geometry.coordinates;
 
                         const locationItem = $(`
-                    <div class="location-item">
-                        <h4>${properties.location_nm || '이름 없음'}</h4>
-                        <p>${properties.location_desc || '설명 없음'}</p>
-                        <p>좌표: ${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}</p>
-                    </div>
-                `);
+                            <div class="location-item">
+                                <h4>${properties.location_nm || '이름 없음'}</h4>
+                                <p>${properties.location_desc || '설명 없음'}</p>
+                                <p>좌표: ${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}</p>
+                            </div>
+                        `);
 
                         locationItem.click(function () {
                             const coords = ol.proj.fromLonLat(coordinates);
@@ -354,11 +360,9 @@ $(document).ready(function () {
                 $('#locations-list').html('<p>위치 정보를 불러오는데 실패했습니다.</p>');
             }
         });
-    });
+    }
 
-
-    $('#close_sidebar').click(function () {
-        $('#sidebar').removeClass('active');
-    });
+    // 페이지 로드 시 위치 목록 로드
+    loadLocations();
 
 });

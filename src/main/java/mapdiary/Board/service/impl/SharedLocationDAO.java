@@ -4,8 +4,21 @@ import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 import mapdiary.Board.service.SharedLocationVO;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository("sharedLocationDAO")
 public class SharedLocationDAO extends EgovAbstractMapper {
+
+    public List<Map<String, Object>> selectSharedLocationsList() {
+        try {
+            return selectList("SharedLocation.selectSharedLocationsList");  // namespace.id 확인
+        } catch (Exception e) {
+            e.printStackTrace(); // 로그 확인을 위해
+            throw new RuntimeException("데이터베이스 조회 중 오류가 발생했습니다.", e);
+        }
+    }
+
 
     public void insertSharedLocation(SharedLocationVO vo){
         insert("SharedLocation.insertSharedLocation", vo);

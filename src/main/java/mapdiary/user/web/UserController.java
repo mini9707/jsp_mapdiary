@@ -55,14 +55,13 @@ public class UserController {
         return ResponseEntity.ok("로그아웃 성공"); // 성공 메시지 반환
     }
 
-    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/login.do")
     public String showLoginPage() {
         return "login"; // 로그인 페이지로 이동
     }
 
-    @RequestMapping(value = "/signup.do", method = RequestMethod.GET)
-    public String showSignupPage(@RequestBody HttpSession session) {
-        
+    @RequestMapping(value = "/signup.do")
+    public String showSignupPage() {
         return "signup"; // 회원가입 페이지로 이동
     }
 }
