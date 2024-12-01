@@ -68,6 +68,14 @@ public class SharedLocationDAO extends EgovAbstractMapper {
         return selectOne("SharedLocation.getLikeCount", sharedId);
     }
 
+    public List<Map<String, Object>> selectHotLocationsList() {
+        return selectList("SharedLocation.selectHotLocationsList");
+    }
+
+    public List<Integer> selectHotLocationIds() {
+        return selectList("SharedLocation.selectHotLocationIds");
+    }
+
     // 요청 객체 클래스
     public static class SharedLocationDeleteRequest {
         private int locationId;

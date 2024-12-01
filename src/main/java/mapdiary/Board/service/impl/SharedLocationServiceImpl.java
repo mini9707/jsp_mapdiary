@@ -71,4 +71,12 @@ public class SharedLocationServiceImpl extends EgovAbstractServiceImpl implement
     public int getLikeCount(int locationId) {
         return sharedLocationDAO.getLikeCount(locationId);
     }
+
+    public List<Map<String, Object>> getHotLocations() {
+        return sharedLocationDAO.selectHotLocationsList();
+    }
+
+    public List<Integer> getHotLocationIds() {
+        return sharedLocationDAO.selectHotLocationIds();
+    }
 }

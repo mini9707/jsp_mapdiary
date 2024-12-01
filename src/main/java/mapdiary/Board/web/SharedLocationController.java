@@ -102,6 +102,18 @@ public class SharedLocationController {
         return response;
     }
 
+    @RequestMapping(value = "/getHotLocations.do", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String, Object>> getHotLocations() {
+        return sharedLocationService.getHotLocations();
+    }
+
+    @RequestMapping(value = "/getHotLocationIds.do", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Integer> getHotLocationIds() {
+        return sharedLocationService.getHotLocationIds();
+    }
+
     // 요청 객체 DTO
     public static class SharedLocationDeleteRequestDto {
         private int locationId;

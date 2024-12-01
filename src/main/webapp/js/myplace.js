@@ -100,7 +100,6 @@ $(document).ready(function () {
     $("#traffic_layer_btn").click(function () {
         const isVisible = itsLyr.getVisible();
         itsLyr.setVisible(!isVisible);
-        $(this).text(isVisible ? "레이어 보이기" : "레이어 숨기기");
     });
 
     // 클릭 이벤트

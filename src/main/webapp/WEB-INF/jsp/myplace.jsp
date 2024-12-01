@@ -34,7 +34,6 @@
 
 <!-- 레이어 버튼 -->
 <div class="layer-buttons">
-  <button id="hot_btn">Hot</button>
   <button id="traffic_layer_btn">교통 레이어</button>
   <button id="cctv_layer_btn">CCTV 레이어</button>
 </div>

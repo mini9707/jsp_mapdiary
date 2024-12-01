@@ -10,4 +10,6 @@ public interface SharedLocationService {
     boolean addLike(int sharedId, Long userId);
     boolean removeLike(int sharedId, Long userId);
     int getLikeCount(int locationId);
+    List<Map<String, Object>> getHotLocations();
+    List<Integer> getHotLocationIds();
 }

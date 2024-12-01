@@ -34,6 +34,7 @@
 
 <!-- 레이어 버튼 추가 -->
 <div class="layer-buttons">
+    <button id="hot_btn">Hot</button>
     <button id="traffic_layer_btn">교통 레이어</button>
     <button id="cctv_layer_btn">CCTV 레이어</button>
 </div>
@@ -46,37 +47,14 @@
 <!-- 사이드바 추가 -->`
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
-        <h3>현재 지도 범위 내 위치</h3>
+        <h3>인기 장소</h3>
         <button id="close_sidebar" class="close-button">&times;</button>
     </div>
     <div id="locations-list" class="locations-list">
-        <!-- 위치 목록이 여기에 동적으로 추가됨 -->
     </div>
 </div>
 
 <div id="map"></div>
-
-<!-- 입력 폼 팝업 -->
-<div id="popup-form" class="popup-overlay">
-    <div class="popup-content">
-        <h3>위치 정보 입력</h3>
-        <form id="locationForm">
-            <div>
-                <label for="locationNm">장소</label>
-                <input type="text" id="locationNm" name="locationNm" required>
-            </div>
-            <div>
-                <label for="locationDesc">기록</label>
-                <textarea id="locationDesc" name="locationDesc" required></textarea>
-            </div>
-            <div class="button-group">
-                <button type="submit">저장</button>
-                <button type="button" id="cancelBtn">취소</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 
 <!-- 정보 표시 팝업 -->
 <div id="info-popup" class="info-popup">

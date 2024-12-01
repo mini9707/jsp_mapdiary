@@ -96,4 +96,33 @@
         FROM location_likes
         WHERE shared_id = #{value}
     </select>
+
+    <!-- Hot 위치 목록 조회 (좋아요 5개 이상) -->
+    <select id="selectHotLocationsList" resultType="map">
+        SELECT
+        s.shared_id,
+        s.location_id,
+        s.shared_user_id,
+        s.shared_at,
+        l.location_nm,
+        l.location_desc,
+        l.location_x as location_x,    <!-- 추가 -->
+        l.location_y as location_y,    <!-- 추가 -->
+        u.username,
+        s.like_count
+        FROM
+        shared_locations s
+        INNER JOIN locations l ON s.location_id = l.location_id
+        INNER JOIN users u ON s.shared_user_id = u.id
+        WHERE
+        s.like_count >= 5
+        ORDER BY
+        s.like_count DESC, s.shared_at DESC
+    </select>
+
+    <select id="selectHotLocationIds" resultType="int">
+        SELECT location_id
+        FROM shared_locations
+        WHERE like_count >= 5
+    </select>
 </mapper>
