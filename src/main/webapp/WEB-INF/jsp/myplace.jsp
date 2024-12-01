@@ -8,7 +8,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Map</title>
+  <title>MyPlace</title>
   <!-- OpenLayers CSS -->
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/css/ol.css">
@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" type="text/css">
 </head>
 <body>
+
 <!-- 네비게이션 바 include -->
 <jsp:include page="/WEB-INF/jsp/nav.jsp" />
 
@@ -45,7 +46,7 @@
     <button id="close_sidebar" class="close-button">&times;</button>
   </div>
   <div id="locations-list" class="locations-list">
-    <!-- 위치 목록이 여기에 동적으로 추가됨 -->
+
   </div>
 </div>
 

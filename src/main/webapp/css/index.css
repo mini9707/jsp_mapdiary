@@ -15,7 +15,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #4CAF50; /* 기본 색상 */
+    background-color: #4CAF50;
     color: white;
 }
 
@@ -28,20 +28,16 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    justify-content: space-between; /* 양쪽 정렬 */
-    width: 100%; /* 전체 너비 사용 */
-}
-
-.layer-buttons #hot_btn {
-    margin-right: auto; /* 왼쪽으로 붙이기 */
+    justify-content: space-between;
+    width: 100%;
 }
 
 .layer-buttons #traffic_layer_btn {
-    margin-right: 0; /* CCTV 버튼과 붙이기 */
+    margin-right: 0;
 }
 
 .layer-buttons #cctv_layer_btn {
-    margin-left: 0; /* CCTV 버튼과 붙이기 */
+    margin-left: 0;
 }
 
 .layer-buttons button {
@@ -51,23 +47,11 @@
     cursor: pointer;
 }
 
-.layer-buttons #hot_btn {
-    background-color: #FF5733; /* Red */
-    color: white;
-}
-
 .layer-buttons #traffic_layer_btn,
 .layer-buttons #cctv_layer_btn {
-    background-color: #007BFF; /* Blue */
+    background-color: #007BFF;
     color: white;
 }
-
-
-
-
-
-
-
 
 .popup-overlay {
     position: fixed;
@@ -226,13 +210,13 @@
 
 .sidebar {
     display: block;
-    width: 250px; /* 사이드바의 너비 */
-    height: calc(100% - 50px); /* 전체 높이에서 네비게이션 바의 높이를 뺀 값 */
+    width: 250px;
+    height: calc(100% - 50px);
     position: fixed;
-    left: 0; /* 왼쪽에 고정 */
-    top: 65px; /* 네비게이션 바의 높이만큼 아래로 이동 */
-    background-color: #f8f9fa; /* 배경색 설정 */
-    z-index: 1000; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 65px;
+    background-color: #f8f9fa;
+    z-index: 1000;
 }
 
 .sidebar.active {

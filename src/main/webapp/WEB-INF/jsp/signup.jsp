@@ -9,13 +9,17 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+
     <!-- contextPath 설정 -->
     <script type="text/javascript">
         var contextPath = "${pageContext.request.contextPath}";
     </script>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css"> <!-- CSS 파일 연결 -->
+
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
 </head>
 <body>
 <h2>회원가입</h2>

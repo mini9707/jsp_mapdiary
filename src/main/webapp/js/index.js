@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     if (username) {
         // 로그인 상태일 경우
         $('#username').text(username + '님').show(); // 사용자 이름 표시
@@ -12,8 +13,6 @@ $(document).ready(function () {
         $('#logout_btn').hide(); // 로그아웃 버튼 숨기기
         $('#username').hide(); // 사용자 이름 숨기기
     }
-
-
 
     // 로그아웃 버튼 클릭 이벤트
     $('#logout_btn').on('click', function() {
@@ -284,15 +283,10 @@ $(document).ready(function () {
         });
     });
 
-
     $('#close_sidebar').click(function () {
         $('#sidebar').removeClass('active');
     });
-
-
-
 });
-
 
 //벡터 레이어 설정 (Geoserver 레이어 사용 전)
 /*const vectorSource = new ol.source.Vector();

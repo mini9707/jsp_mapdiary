@@ -164,76 +164,100 @@ $(document).ready(function () {
         }
     });
 
-// 공유 장소 저장 버튼 클릭 이벤트
+    // 공유 장소 저장 버튼 클릭 이벤트
     $('#saveSharedLocationBtn').click(function () {
         const isShared = $('#shareLocationCheckbox').is(':checked');
-        const locationId = $(this).data('locationId'); // data 속성에서 locationId 가져오기
+        const locationId = $(this).data('locationId');
 
         const sharedLocationData = {
-            locationId: locationId, // 가져온 locationId 사용
-            sharedUserId: numericUserId, // 현재 사용자 ID
+            locationId: locationId,
+            sharedUserId: numericUserId,
         };
 
         if (isShared) {
-            // 1. Locations 테이블의 is_shared 필드 업데이트
+            // 공유하기 - 기존 코드 유지
             $.ajax({
-                url: contextPath + "/updateLocationSharedStatus.do", // Locations 업데이트 URL
+                url: contextPath + "/updateLocationSharedStatus.do",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({ locationId: locationId, isShared: true }),
                 success: function (updateResponse) {
-                    // 2. Shared_Locations 테이블에 추가
                     $.ajax({
-                        url: contextPath + "/saveSharedLocation.do", // 서버의 저장 URL
+                        url: contextPath + "/saveSharedLocation.do",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify(sharedLocationData),
                         success: function (response) {
                             alert('장소가 공유되었습니다.');
-                            $('#info-popup').hide(); // 팝업 닫기
+                            $('#info-popup').hide();
                         },
                         error: function (xhr, status, error) {
                             const errorMessage = xhr.responseText || '장소 공유에 실패했습니다.';
                             console.error("장소 공유 중 오류 발생:", error);
-                            alert(errorMessage); // 사용자에게 오류 메시지 표시
+                            alert(errorMessage);
                         }
                     });
                 },
                 error: function (xhr, status, error) {
                     const errorMessage = xhr.responseText || '장소 공유 상태 업데이트에 실패했습니다.';
                     console.error("장소 공유 상태 업데이트 중 오류 발생:", error);
-                    alert(errorMessage); // 사용자에게 오류 메시지 표시
+                    alert(errorMessage);
                 }
             });
         } else {
-            // 체크박스가 해제된 경우, Shared_Locations 테이블에서 삭제
+            // 공유 취소 전 확인
             $.ajax({
-                url: contextPath + "/deleteSharedLocation.do", // 삭제 요청 URL
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ locationId: locationId, sharedUserId: numericUserId }), // 필요한 데이터 전송
-                success: function (deleteResponse) {
-                    // 2. Locations 테이블의 is_shared 필드 업데이트
+                url: contextPath + "/checkLikes.do",
+                type: "GET",
+                data: { locationId: locationId },
+                success: function(response) {
+                    let confirmMessage = '공유를 취소하시겠습니까?';
+                    if (response.likeCount > 0) {
+                        confirmMessage = `이 장소는 ${response.likeCount}개의 좋아요를 받았습니다.\n장소가 받은 좋아요도 사라집니다.\n공유를 취소하시겠습니까?`;
+                    }
+
+                    if (!confirm(confirmMessage)) {
+                        // 사용자가 취소를 선택한 경우
+                        $('#shareLocationCheckbox').prop('checked', true);  // 체크박스 상태 되돌리기
+                        return;
+                    }
+
+                    // 사용자가 확인을 선택한 경우 - 기존 공유 취소 로직 실행
                     $.ajax({
-                        url: contextPath + "/updateLocationSharedStatus.do", // Locations 업데이트 URL
+                        url: contextPath + "/deleteSharedLocation.do",
                         type: "POST",
                         contentType: "application/json",
-                        data: JSON.stringify({ locationId: locationId, isShared: false }),
-                        success: function (updateResponse) {
-                            alert('공유가 취소되었습니다.');
-                            $('#info-popup').hide(); // 팝업 닫기
+                        data: JSON.stringify({ locationId: locationId, sharedUserId: numericUserId }),
+                        success: function (deleteResponse) {
+                            $.ajax({
+                                url: contextPath + "/updateLocationSharedStatus.do",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify({ locationId: locationId, isShared: false }),
+                                success: function (updateResponse) {
+                                    alert('공유가 취소되었습니다.');
+                                    $('#info-popup').hide();
+                                },
+                                error: function (xhr, status, error) {
+                                    const errorMessage = xhr.responseText || '공유 취소에 실패했습니다.';
+                                    console.error("공유 취소 중 오류 발생:", error);
+                                    alert(errorMessage);
+                                    $('#shareLocationCheckbox').prop('checked', true);  // 실패시 체크박스 상태 되돌리기
+                                }
+                            });
                         },
                         error: function (xhr, status, error) {
                             const errorMessage = xhr.responseText || '공유 취소에 실패했습니다.';
                             console.error("공유 취소 중 오류 발생:", error);
-                            alert(errorMessage); // 사용자에게 오류 메시지 표시
+                            alert(errorMessage);
+                            $('#shareLocationCheckbox').prop('checked', true);  // 실패시 체크박스 상태 되돌리기
                         }
                     });
                 },
-                error: function (xhr, status, error) {
-                    const errorMessage = xhr.responseText || '공유 취소에 실패했습니다.';
-                    console.error("공유 취소 중 오류 발생:", error);
-                    alert(errorMessage); // 사용자에게 오류 메시지 표시
+                error: function(xhr, status, error) {
+                    console.error('좋아요 수 확인 중 오류 발생:', error);
+                    alert('좋아요 정보를 확인하는 중 오류가 발생했습니다.');
+                    $('#shareLocationCheckbox').prop('checked', true);  // 에러시 체크박스 상태 되돌리기
                 }
             });
         }

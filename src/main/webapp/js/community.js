@@ -33,4 +33,53 @@ $(document).ready(function() {
         const locationId = $(this).data('location-id');
         // 추가 기능 구현
     });
+
+    // 좋아요 버튼 클릭 이벤트
+    $(document).on('click', '.like-button', function() {
+        const $button = $(this);
+        const sharedId = $button.attr('data-shared-id');
+        const isLiked = $button.data('liked') === true;
+
+        console.log('Request sending:', {
+            sharedId: sharedId,
+            action: isLiked ? 'unlike' : 'like'
+        });
+
+        $.ajax({
+            url: contextPath + '/like.do',
+            type: 'POST',
+            data: {
+                sharedId: sharedId,
+                action: isLiked ? 'unlike' : 'like'
+            },
+            dataType: 'json',  // 응답 형식을 JSON으로 명시
+            success: function(response) {
+                console.log('Server response:', response);  // 응답 확인
+
+                if (response && response.success) {  // response 객체 존재 여부 확인
+                    // 하트 아이콘 토글
+                    $button.toggleClass('bi-heart bi-heart-fill');
+                    // liked 상태 토글
+                    $button.data('liked', !isLiked);
+
+                    // 좋아요 수 업데이트
+                    const $likeCount = $button.siblings('.like-count');
+                    const currentCount = parseInt($likeCount.text());
+                    $likeCount.text(isLiked ? currentCount - 1 : currentCount + 1);
+                } else {
+                    console.error('Invalid response:', response);
+                    alert(response?.message || '좋아요 처리 중 오류가 발생했습니다.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', {
+                    status: status,
+                    error: error,
+                    response: xhr.responseText,
+                    xhr: xhr
+                });
+                alert('서버 통신 중 오류가 발생했습니다.');
+            }
+        });
+    });
 });

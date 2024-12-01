@@ -5,6 +5,9 @@ import java.util.Map;
 
 public interface SharedLocationService {
     void saveSharedLocation(SharedLocationVO sharedLocation);
-    void deleteSharedLocation(int locationId, int sharedUserId);
-    List<Map<String, Object>> getSharedLocations();
+    void deleteSharedLocation(int locationId, Long sharedUserId);
+    List<Map<String, Object>> getSharedLocations(Long userId);
+    boolean addLike(int sharedId, Long userId);
+    boolean removeLike(int sharedId, Long userId);
+    int getLikeCount(int locationId);
 }

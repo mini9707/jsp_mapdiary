@@ -9,15 +9,19 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- contextPath 설정 -->
     <script type="text/javascript">
         var contextPath = "${pageContext.request.contextPath}";
     </script>
 
+    <!-- 커스텀 CSS -->
     <link rel="stylesheet" href="<c:url value='/css/login.css'/>" type="text/css">
 </head>
+
 <body>
 <h2>로그인</h2>
 <form id="loginForm">
