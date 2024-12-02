@@ -41,8 +41,7 @@
 <!-- 사이드바 -->
 <div id="sidebar" class="sidebar">
   <div class="sidebar-header">
-    <h3>현재 지도 범위 내 위치</h3>
-    <button id="close_sidebar" class="close-button">&times;</button>
+    <h3>지도 범위 내 위치</h3>
   </div>
   <div id="locations-list" class="locations-list">
 

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // 사용자 인증 상태 처리
+    // 사용자 확인
     if (username) {
         $('#username').text(username + '님').show();
         $('#logout_btn').show();
@@ -27,11 +27,9 @@ $(document).ready(function() {
         });
     });
 
-    // 장소 카드 클릭 이벤트 (필요한 경우)
+    // 장소 카드 클릭 이벤트 (아직 미구현)
     $('.location-card').click(function() {
-        // 장소 카드 클릭 시 상세 정보 보기 등의 기능 구현
         const locationId = $(this).data('location-id');
-        // 추가 기능 구현
     });
 
     // 좋아요 버튼 클릭 이벤트
@@ -52,11 +50,11 @@ $(document).ready(function() {
                 sharedId: sharedId,
                 action: isLiked ? 'unlike' : 'like'
             },
-            dataType: 'json',  // 응답 형식을 JSON으로 명시
+            dataType: 'json',
             success: function(response) {
-                console.log('Server response:', response);  // 응답 확인
+                console.log('Server response:', response);
 
-                if (response && response.success) {  // response 객체 존재 여부 확인
+                if (response && response.success) {
                     // 하트 아이콘 토글
                     $button.toggleClass('bi-heart bi-heart-fill');
                     // liked 상태 토글

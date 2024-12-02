@@ -11,8 +11,7 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify({ username: username, password: password }),
             success: function (response) {
-                alert(response); // 로그인 성공 메시지
-                // 로그인 성공 후 메인 페이지로 리다이렉트
+                alert(username+"님 환영합니다");
                 window.location.href = contextPath + "/" ;
             },
             error: function (error) {

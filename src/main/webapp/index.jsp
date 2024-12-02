@@ -48,7 +48,6 @@
 <div id="sidebar" class="sidebar">
     <div class="sidebar-header">
         <h3>인기 장소</h3>
-        <button id="close_sidebar" class="close-button">&times;</button>
     </div>
     <div id="locations-list" class="locations-list">
     </div>
