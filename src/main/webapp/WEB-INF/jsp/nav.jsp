@@ -5,43 +5,111 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style>
-  .logo a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .logo a:hover {
-    text-decoration: none;
-  }
-
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #f8f8f8;
+    background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .header .logo {
+  .logo a {
+    text-decoration: none;
+    color: #3b5bdb;  /* 로고 색상을 파란색으로 변경 */
     font-size: 24px;
     font-weight: bold;
+  }
+
+  .logo a:hover {
+    color: #364fc7;  /* 호버시 더 진한 파란색 */
   }
 
   /* 네비게이션 링크 스타일 */
   .nav-links {
     display: flex;
-    gap: 20px; /* 링크 간격 */
+    gap: 20px;
   }
 
   .nav-links a {
     text-decoration: none;
-    color: #4CAF50; /* 링크 색상 */
-    font-weight: bold;
+    color: #495057;  /* 기본 텍스트 색상 */
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
   }
 
   .nav-links a:hover {
-    text-decoration: underline; /* 마우스 오버 시 밑줄 */
+    background-color: #f1f3f9;
+    color: #3b5bdb;
+    text-decoration: none;
+  }
+
+  /* 인증 버튼 스타일 */
+  .auth-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .auth-buttons button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  #username {
+    color: #495057;
+    font-weight: 500;
+    margin-right: 10px;
+  }
+
+  #login_btn {
+    background-color: white;
+    color: #3b5bdb;
+    border: 1px solid #3b5bdb;
+  }
+
+  #login_btn:hover {
+    background-color: #f1f3f9;
+  }
+
+  #signup_btn {
+    background-color: #3b5bdb;
+    color: white;
+    border: none;
+  }
+
+  #signup_btn:hover {
+    background-color: #364fc7;
+  }
+
+  #logout_btn {
+    background-color: #e9ecef;
+    color: #495057;
+    border: none;
+  }
+
+  #logout_btn:hover {
+    background-color: #dee2e6;
+  }
+
+  /* 반응형 디자인을 위한 미디어 쿼리 */
+  @media (max-width: 768px) {
+    .header {
+      padding: 10px;
+    }
+
+    .nav-links {
+      gap: 10px;
+    }
+
+    .auth-buttons button {
+      padding: 6px 12px;
+    }
   }
 </style>
 

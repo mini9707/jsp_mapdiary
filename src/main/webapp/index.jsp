@@ -32,25 +32,75 @@
 <!-- 네비게이션 바 include -->
 <jsp:include page="/WEB-INF/jsp/nav.jsp" />
 
-<!-- 레이어 버튼 추가 -->
-<div class="layer-buttons">
-    <button id="hot_btn">Hot</button>
-    <button id="traffic_layer_btn">교통 레이어</button>
-    <button id="cctv_layer_btn">CCTV 레이어</button>
+<!-- 사이드바 -->
+<div id="sidebar" class="sidebar-expanded">
+    <div class="sidebar-header">
+        <h3>지도 레이어</h3>
+    </div>
+
+    <div class="layer-tabs">
+        <button class="layer-tab active" data-tab="hot">인기 레이어</button>
+        <button class="layer-tab" data-tab="shared">공유 레이어</button>
+        <button class="layer-tab" data-tab="my" id="my-layer-tab">내 레이어</button>
+    </div>
+
+<%--    <div class="search-box">--%>
+<%--        <select class="category-select">--%>
+<%--            <option value="">전체</option>--%>
+<%--            <!-- 카테고리 옵션들 -->--%>
+<%--        </select>--%>
+<%--        <div class="search-input-wrapper">--%>
+<%--            <input type="text" placeholder="검색어를 입력해주세요" class="search-input">--%>
+<%--            <button class="search-btn"><i class="fas fa-search"></i></button>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+
+    <div class="layer-contents">
+        <!-- 인기 레이어 탭 -->
+        <div class="layer-content active" id="hot-content">
+            <div class="location-list" id="hot-locations"></div>
+        </div>
+
+        <!-- 공유 레이어 탭 -->
+        <div class="layer-content" id="shared-content">
+            <div class="layer-list">
+                <div class="layer-item">
+                    <div class="layer-toggle">
+                        <input type="checkbox" id="shared_layer_toggle">
+                        <label for="shared_layer_toggle">공유된 장소</label>
+                        <input type="checkbox" id="shared_label_toggle" class="label-toggle">
+                        <label for="shared_label_toggle" class="label-toggle-btn">라벨</label>
+                    </div>
+                    <span class="location-count">0개</span>
+                </div>
+            </div>
+            <div class="location-list" id="shared-locations">
+
+            </div>
+        </div>
+
+        <!-- 내 레이어 탭 -->
+        <div class="layer-content" id="my-content">
+            <div class="layer-list">
+                <div class="layer-item">
+                    <div class="layer-toggle">
+                        <input type="checkbox" id="my_layer_toggle">
+                        <label for="my_layer_toggle">내 장소</label>
+                        <input type="checkbox" id="my_label_toggle" class="label-toggle">
+                        <label for="my_label_toggle" class="label-toggle-btn">라벨</label>
+                    </div>
+                    <span class="location-count">5개</span>
+                </div>
+            </div>
+            <div class="location-list" id="my-locations"></div>
+        </div>
+    </div>
 </div>
 
-<!-- 메뉴 버튼 추가 -->
-<button id="menu_btn" class="menu-button">
-    <i class="fas fa-bars"></i>
-</button>
-
-<!-- 사이드바 추가 -->`
-<div id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-        <h3>인기 장소</h3>
-    </div>
-    <div id="locations-list" class="locations-list">
-    </div>
+<!-- 레이어 버튼 추가 -->
+<div class="layer-buttons">
+    <button id="traffic_layer_btn">교통 레이어</button>
+    <button id="cctv_layer_btn">CCTV 레이어</button>
 </div>
 
 <div id="map"></div>
@@ -64,7 +114,7 @@
     </div>
 </div>
 
-<!-- 커스텀 JS -->
 <script src="<c:url value='/js/index.js'/>"></script>
 </body>
+
 </html>

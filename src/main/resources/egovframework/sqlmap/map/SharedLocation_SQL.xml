@@ -56,7 +56,7 @@
     <delete id="deleteLike" parameterType="map">
         DELETE
         FROM location_likes
-        WHERE shared_id = #{value}
+        WHERE shared_id = #{sharedId}``
           AND user_id = #{userId}
     </delete>
 

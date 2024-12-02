@@ -3,6 +3,8 @@ package mapdiary.Board.web;
 import mapdiary.Board.service.SharedLocationService;
 import mapdiary.Board.service.SharedLocationVO;
 import mapdiary.user.service.UserVO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +22,23 @@ public class SharedLocationController {
     @Resource(name = "sharedLocationService")
     private SharedLocationService sharedLocationService;
 
-    // Community Page 공유 장소 리스트 반환, page 요청
-    @RequestMapping(value = "/community.do")
-    public String getCommunityPage(Model model, HttpSession session) {
+    // 공유된 장소 목록 조회 (JSON)
+    @RequestMapping("/community.do")
+    @ResponseBody
+    public List<Map<String, Object>> getSharedLocations(HttpSession session) {
         UserVO user = (UserVO) session.getAttribute("user");
-        Long userId = (user != null) ? user.getId() : 0;
+        Long userId = (user != null) ? user.getId() : 0L;
 
-        List<Map<String, Object>> sharedLocations = sharedLocationService.getSharedLocations(userId);
+        // getSharedLocations 메서드가 이미 liked 상태를 포함하여 반환
+        List<Map<String, Object>> locations = sharedLocationService.getSharedLocations(userId);
 
-        model.addAttribute("sharedLocations", sharedLocations);
-        return "community";
+        // 로그인하지 않은 경우 liked를 모두 false로 설정
+        if (user == null) {
+            locations.forEach(location -> location.put("liked", false));
+        }
+
+        return locations;
     }
-
     // 장소 공유 저장
     @RequestMapping(value = "/saveSharedLocation.do", method = RequestMethod.POST)
     public ResponseEntity<String> saveSharedLocation(@RequestBody SharedLocationVO sharedLocation) {
