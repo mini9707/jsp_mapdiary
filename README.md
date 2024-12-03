@@ -23,7 +23,8 @@
 
 ## 데이터베이스 설계
 
-### ERD
+![image](https://github.com/user-attachments/assets/74716d3d-9a15-476a-a118-0459ff3bf2ab)
+
 
 #### 테이블 구조
 
