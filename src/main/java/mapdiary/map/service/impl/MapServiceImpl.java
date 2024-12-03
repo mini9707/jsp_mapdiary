@@ -1,14 +1,14 @@
 package mapdiary.map.service.impl;
 
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import mapdiary.map.service.LocationVO;
+import mapdiary.map.service.MapService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import mapdiary.map.service.MapService;
-import mapdiary.map.service.LocationVO;
 
 @Service("mapService")
 public class MapServiceImpl extends EgovAbstractServiceImpl implements MapService {
@@ -27,7 +27,7 @@ public class MapServiceImpl extends EgovAbstractServiceImpl implements MapServic
         return mapDAO.selectLocationList(vo);
     }
 
-    public void updateSharedStatus(int locationId, boolean isShared) {
+    public void updateSharedStatus(Long locationId, boolean isShared) {
         try {
             Map<String, Object> data = new HashMap<>();
             data.put("locationId", locationId);

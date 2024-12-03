@@ -355,6 +355,82 @@ input:checked + .slider:before {
     background: #555;
 }
 
+.item-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.share-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+    transform: scale(1.1);
+}
+
+.share-btn.shared {
+    color: #2196F3;
+}
+
+.share-btn i {
+    font-size: 1.2em;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.popup input,
+.popup textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#add_location_btn.active {
+    background-color: #e70e50;
+}
+
+/* 토스트 메시지 스타일 */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    z-index: 1000;
+    animation: fadeInOut 2s ease;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    15% { opacity: 1; transform: translate(-50%, 0); }
+    85% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
 /* 레이어 버튼 컨테이너 */
 .layer-buttons {
     position: absolute;
@@ -389,6 +465,273 @@ input:checked + .slider:before {
 }
 
 .layer-buttons button.active {
-    background: #253aa3;  /* 활성화시 더 진한 파란색 */
+    background: #162682;  /* 활성화시 더 진한 파란색 */
     color: white;
+}
+
+/* 기존 스타일 유지하고 팝업 관련 스타일 추가 */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 300px;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.popup-content {
+    margin-bottom: 15px;
+}
+
+.popup input,
+.popup textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.popup textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.popup-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup-buttons button:first-child {
+    background: #00c73c;
+    color: white;
+}
+
+.popup-buttons button:last-child {
+    background: #f44336;
+    color: white;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-btn:hover {
+    color: #e70e50;
+}
+
+/* 레이어 버튼 스타일 수정 */
+.layer-buttons {
+    position: absolute;
+    right: 10px;
+    top: 66px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.layer-buttons button {
+    background: #3b5bdb;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 13px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 120px;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.layer-buttons button:hover {
+    background: #364fc7;
+}
+
+.layer-buttons button.active {
+    background: #162682;
+}
+
+/* 팝업 공통 스타일 */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    min-width: 320px;
+    max-width: 480px;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 팝업 헤더 */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.popup-header h3 {
+    font-size: 1.4em;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #e70e50;
+    transform: rotate(90deg);
+}
+
+/* 팝업 컨텐츠 */
+.popup-content {
+    margin-bottom: 20px;
+}
+
+/* 장소 추가 팝업 스타일 */
+#add-location-popup input,
+#add-location-popup textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#add-location-popup input:focus,
+#add-location-popup textarea:focus {
+    border-color: #00c73c;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 199, 60, 0.1);
+}
+
+#add-location-popup textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* 장소 정보 팝업 스타일 */
+#location-popup .popup-content {
+    color: #333;
+}
+
+#location-title {
+    font-size: 1.6em;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+#location-desc {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+#location-author {
+    font-size: 0.9em;
+    color: #888;
+    font-style: italic;
+}
+
+/* 버튼 스타일 */
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.popup-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#save-location-btn {
+    background: #00c73c;
+    color: white;
+}
+
+#save-location-btn:hover {
+    background: #00a032;
+    transform: translateY(-2px);
+}
+
+#cancel-location-btn {
+    background: #f44336;
+    color: white;
+}
+
+#cancel-location-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* 애니메이션 효과 */
+.popup {
+    animation: popupFadeIn 0.3s ease;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }

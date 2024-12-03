@@ -1,13 +1,10 @@
-package mapdiary.Board.web;
+package mapdiary.sharedLocation.web;
 
-import mapdiary.Board.service.SharedLocationService;
-import mapdiary.Board.service.SharedLocationVO;
+import mapdiary.sharedLocation.service.SharedLocationService;
+import mapdiary.sharedLocation.service.SharedLocationVO;
 import mapdiary.user.service.UserVO;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,23 +19,20 @@ public class SharedLocationController {
     @Resource(name = "sharedLocationService")
     private SharedLocationService sharedLocationService;
 
-    // 공유된 장소 목록 조회 (JSON)
+    // 공유된 장소 목록 조회
     @RequestMapping("/community.do")
     @ResponseBody
     public List<Map<String, Object>> getSharedLocations(HttpSession session) {
         UserVO user = (UserVO) session.getAttribute("user");
         Long userId = (user != null) ? user.getId() : 0L;
-
-        // getSharedLocations 메서드가 이미 liked 상태를 포함하여 반환
         List<Map<String, Object>> locations = sharedLocationService.getSharedLocations(userId);
 
-        // 로그인하지 않은 경우 liked를 모두 false로 설정
         if (user == null) {
             locations.forEach(location -> location.put("liked", false));
         }
-
         return locations;
     }
+
     // 장소 공유 저장
     @RequestMapping(value = "/saveSharedLocation.do", method = RequestMethod.POST)
     public ResponseEntity<String> saveSharedLocation(@RequestBody SharedLocationVO sharedLocation) {
@@ -48,45 +42,38 @@ public class SharedLocationController {
 
     // 장소 공유 삭제
     @RequestMapping(value = "/deleteSharedLocation.do", method = RequestMethod.POST)
-    public ResponseEntity<String> deleteSharedLocation(@RequestBody SharedLocationDeleteRequestDto request) {
+    public ResponseEntity<String> deleteSharedLocation(@RequestBody SharedLocationVO sharedLocation) {
         try {
-            sharedLocationService.deleteSharedLocation(request.getLocationId(), (long) request.getSharedUserId());
+            sharedLocationService.deleteSharedLocation(sharedLocation.getLocationId(),
+                    (long) sharedLocation.getSharedUserId());
             return ResponseEntity.ok("장소 공유가 취소되었습니다.");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("장소 공유 취소에 실패했습니다: " + e.getMessage());
+            return ResponseEntity.status(500)
+                    .body("장소 공유 취소에 실패했습니다: " + e.getMessage());
         }
     }
 
-    // 공유된 장소 좋아요
+    // 좋아요 처리
     @RequestMapping(value = "/like.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> handleLike(@RequestParam("sharedId") int sharedId, @RequestParam("action") String action, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
+        UserVO user = (UserVO) session.getAttribute("user");
 
-        try {
-            UserVO user = (UserVO) session.getAttribute("user");
-            if (user == null) {
-                response.put("success", false);
-                response.put("message", "로그인이 필요합니다.");
-                return response;
-            }
-
-            boolean success = "like".equals(action) ?
-                    sharedLocationService.addLike(sharedId, user.getId()) :
-                    sharedLocationService.removeLike(sharedId, user.getId());
-
-            response.put("success", success);
-
-            // 응답에 더 자세한 정보 추가
-            response.put("sharedId", sharedId);
-            response.put("action", action);
-            response.put("liked", "like".equals(action));
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (user == null) {
             response.put("success", false);
-            response.put("message", e.getMessage());
+            response.put("message", "로그인이 필요합니다.");
+            return response;
         }
+
+        boolean success = "like".equals(action) ?
+                sharedLocationService.addLike(sharedId, user.getId()) :
+                sharedLocationService.removeLike(sharedId, user.getId());
+
+        response.put("success", success);
+        response.put("sharedId", sharedId);
+        response.put("action", action);
+        response.put("liked", "like".equals(action));
 
         return response;
     }
@@ -97,24 +84,24 @@ public class SharedLocationController {
     public Map<String, Object> checkLikes(@RequestParam("locationId") int locationId) {
         Map<String, Object> response = new HashMap<>();
         try {
-            // 좋아요 수 조회
             int likeCount = sharedLocationService.getLikeCount(locationId);
             response.put("success", true);
             response.put("likeCount", likeCount);
         } catch (Exception e) {
-            e.printStackTrace();
             response.put("success", false);
             response.put("message", e.getMessage());
         }
         return response;
     }
 
+    // 인기 장소 목록 조회
     @RequestMapping(value = "/getHotLocations.do", method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String, Object>> getHotLocations() {
         return sharedLocationService.getHotLocations();
     }
 
+    // 인기 장소 ID 목록 조회
     @RequestMapping(value = "/getHotLocationIds.do", method = RequestMethod.GET)
     @ResponseBody
     public List<Integer> getHotLocationIds() {
@@ -126,10 +113,20 @@ public class SharedLocationController {
         private int locationId;
         private int sharedUserId;
 
-        public int getLocationId() { return locationId; }
-        public void setLocationId(int locationId) { this.locationId = locationId; }
+        public int getLocationId() {
+            return locationId;
+        }
 
-        public int getSharedUserId() { return sharedUserId; }
-        public void setShared(int sharedUserId) { this.sharedUserId = sharedUserId; }
+        public void setLocationId(int locationId) {
+            this.locationId = locationId;
+        }
+
+        public int getSharedUserId() {
+            return sharedUserId;
+        }
+
+        public void setShared(int sharedUserId) {
+            this.sharedUserId = sharedUserId;
+        }
     }
 }

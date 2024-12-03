@@ -6,7 +6,8 @@
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
         <typeAlias alias="locationVO" type="mapdiary.map.service.LocationVO"/>
         <typeAlias alias="userVO" type="mapdiary.user.service.UserVO"/>
-        <typeAlias alias="sharedLocationVO" type="mapdiary.Board.service.SharedLocationVO"/>
+        <typeAlias alias="sharedLocationVO" type="mapdiary.sharedLocation.service.SharedLocationVO"/>
+        <typeAlias alias="CctvVO" type="mapdiary.cctv.service.CctvVO"/>
 
     </typeAliases>
 </configuration>

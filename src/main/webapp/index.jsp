@@ -22,6 +22,7 @@
     <script type="text/javascript">
         var contextPath = "${pageContext.request.contextPath}";
         var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}";// 세션에서 사용자 객체 가져오기
+        var userId = "${sessionScope.user.id}";  // userId 추가
     </script>
 
     <!-- 커스텀 CSS -->
@@ -44,17 +45,6 @@
         <button class="layer-tab" data-tab="my" id="my-layer-tab">내 레이어</button>
     </div>
 
-<%--    <div class="search-box">--%>
-<%--        <select class="category-select">--%>
-<%--            <option value="">전체</option>--%>
-<%--            <!-- 카테고리 옵션들 -->--%>
-<%--        </select>--%>
-<%--        <div class="search-input-wrapper">--%>
-<%--            <input type="text" placeholder="검색어를 입력해주세요" class="search-input">--%>
-<%--            <button class="search-btn"><i class="fas fa-search"></i></button>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
     <div class="layer-contents">
         <!-- 인기 레이어 탭 -->
         <div class="layer-content active" id="hot-content">
@@ -63,35 +53,12 @@
 
         <!-- 공유 레이어 탭 -->
         <div class="layer-content" id="shared-content">
-            <div class="layer-list">
-                <div class="layer-item">
-                    <div class="layer-toggle">
-                        <input type="checkbox" id="shared_layer_toggle">
-                        <label for="shared_layer_toggle">공유된 장소</label>
-                        <input type="checkbox" id="shared_label_toggle" class="label-toggle">
-                        <label for="shared_label_toggle" class="label-toggle-btn">라벨</label>
-                    </div>
-                    <span class="location-count">0개</span>
-                </div>
-            </div>
-            <div class="location-list" id="shared-locations">
-
-            </div>
+            <div class="location-list" id="shared-locations"></div>
         </div>
 
         <!-- 내 레이어 탭 -->
         <div class="layer-content" id="my-content">
-            <div class="layer-list">
-                <div class="layer-item">
-                    <div class="layer-toggle">
-                        <input type="checkbox" id="my_layer_toggle">
-                        <label for="my_layer_toggle">내 장소</label>
-                        <input type="checkbox" id="my_label_toggle" class="label-toggle">
-                        <label for="my_label_toggle" class="label-toggle-btn">라벨</label>
-                    </div>
-                    <span class="location-count">5개</span>
-                </div>
-            </div>
+            <div class="layer-list"></div>
             <div class="location-list" id="my-locations"></div>
         </div>
     </div>
@@ -101,20 +68,66 @@
 <div class="layer-buttons">
     <button id="traffic_layer_btn">교통 레이어</button>
     <button id="cctv_layer_btn">CCTV 레이어</button>
+    <button id="add_location_btn" style="display: none;">내 장소 추가</button>
+</div>
+
+<div id="cctv-popup" style="display: none;
+position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; height: 300px; z-index: 9999; padding: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div id="cctvTitle" style="color: #fff;">제목</div>
+        <button id="cctvStop" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">닫기</button>
+    </div>
+    <div style="height: 250px;">
+        <div style="border: 1px solid #000000; height: 88%;" id="cctvMain"></div>
+    </div>
 </div>
 
 <div id="map"></div>
 
-<!-- 정보 표시 팝업 -->
-<div id="info-popup" class="info-popup">
-    <div class="info-content">
-        <h3 id="info-title"></h3>
-        <p id="info-description"></p>
-        <button type="button" id="closeInfoBtn">닫기</button>
+<!-- CCTV 팝업 -->
+<div id="cctv-popup" style="display: none;
+position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; height: 300px; z-index: 9999; padding: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div id="cctvTitle" style="color: #fff;">제목</div>
+        <button id="cctvStop" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">닫기</button>
+    </div>
+    <div style="height: 250px;">
+        <div style="border: 1px solid #000000; height: 88%;" id="cctvMain"></div>
+    </div>
+</div>
+
+<!-- 장소 정보 팝업 -->
+<div id="location-popup" class="popup" style="display: none;">
+    <div class="popup-header">
+        <h3 id="location-title"></h3>
+        <button id="location-close-btn" class="close-btn">&times;</button>
+    </div>
+    <div class="popup-content">
+        <p id="location-desc"></p>
+        <p id="location-author"></p>
+        <div id="location-likes"></div>
+    </div>
+</div>
+
+<!-- 장소 추가 팝업 -->
+<div id="add-location-popup" class="popup" style="display: none;">
+    <div class="popup-header">
+        <h3>새 장소 추가</h3>
+        <button id="add-location-close-btn" class="close-btn">&times;</button>
+    </div>
+    <div class="popup-content">
+        <input type="text" id="location-name" placeholder="장소 이름">
+        <textarea id="location-desc" placeholder="장소 설명"></textarea>
+        <div class="popup-buttons">
+            <button id="save-location-btn">저장</button>
+            <button id="cancel-location-btn">취소</button>
+        </div>
     </div>
 </div>
 
 <script src="<c:url value='/js/index.js'/>"></script>
+<script src="<c:url value='/js/hls.js'/>"></script>
+<script src="<c:url value='/js/cctv.js'/>"></script>
 </body>
 
 </html>

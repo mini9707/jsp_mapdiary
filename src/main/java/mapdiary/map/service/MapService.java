@@ -5,5 +5,5 @@ import java.util.List;
 public interface MapService {
     LocationVO insertLocation(LocationVO vo) throws Exception;
     List<LocationVO> selectLocationList(LocationVO vo) throws Exception;
-    void updateSharedStatus(int locationId, boolean isShared);
+    void updateSharedStatus(Long locationId, boolean isShared);
 }

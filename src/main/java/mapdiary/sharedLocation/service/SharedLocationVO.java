@@ -1,15 +1,13 @@
-package mapdiary.Board.service;
+package mapdiary.sharedLocation.service;
 
 import java.time.LocalDateTime;
 
 public class SharedLocationVO {
-    private static final long serialVersionUID = 1L; // 추가
-
-    private int sharedId;        // 공유 ID
-    private int locationId;      // 공유된 장소의 ID
-    private int sharedUserId;    // 공유한 사용자의 ID
-    private int like_count;    // 추가된 필드
-    private LocalDateTime sharedAt; // 공유된 날짜 및 시간
+    private int sharedId;
+    private int locationId;
+    private int sharedUserId;
+    private int like_count;
+    private LocalDateTime sharedAt;
 
 
     public int getSharedId() { return sharedId; }

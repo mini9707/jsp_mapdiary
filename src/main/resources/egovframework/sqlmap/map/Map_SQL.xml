@@ -3,11 +3,21 @@
 
 <mapper namespace="Map">
     <insert id="insertLocation" parameterType="locationVO">
-        INSERT INTO locations
-        (LOCATION_NM, LOCATION_X, LOCATION_Y, LOCATION_DESC, user_id, geom) <!-- user_id 추가 -->
-        VALUES
-        (#{locationNm}, #{locationX}, #{locationY}, #{locationDesc}, #{userId}, <!-- userId 추가 -->
-        ST_SetSRID(ST_MakePoint(#{locationX}, #{locationY}), 4326))
+        INSERT INTO locations (
+            LOCATION_NM,
+            LOCATION_X,
+            LOCATION_Y,
+            LOCATION_DESC,
+            user_id,
+            geom
+        ) VALUES (
+                     #{locationNm},
+                     #{locationX},
+                     #{locationY},
+                     #{locationDesc},
+                     #{userId},
+                     ST_SetSRID(ST_MakePoint(#{locationX}, #{locationY}), 4326)
+                 )
     </insert>
 
     <select id="selectLocationList" resultType="locationVO">
@@ -16,12 +26,16 @@
             LOCATION_NM as locationNm,
             LOCATION_X as locationX,
             LOCATION_Y as locationY,
-            LOCATION_DESC as locationDesc
+            LOCATION_DESC as locationDesc,
+            user_id as userId,
+            is_shared as isShared
         FROM locations
         ORDER BY LOCATION_ID DESC
     </select>
 
     <update id="updateSharedStatus" parameterType="Map">
-        UPDATE locations SET is_shared = #{isShared} WHERE location_id = #{locationId}
+        UPDATE locations
+        SET is_shared = #{isShared}
+        WHERE location_id = #{locationId}
     </update>
 </mapper>

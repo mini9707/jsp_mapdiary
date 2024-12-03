@@ -9,7 +9,6 @@ import mapdiary.map.service.LocationVO;
 
 @Repository("mapDAO")
 public class MapDAO extends EgovAbstractMapper {
-
     public void insertLocation(LocationVO vo) throws Exception {
         insert("Map.insertLocation", vo);
     }

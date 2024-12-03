@@ -25,7 +25,7 @@ $(document).ready(function () {
     });
 
     // 지도 초기화
-    const map = new ol.Map({
+    map = new ol.Map({
         target: 'map',
         layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
         view: new ol.View({
@@ -40,8 +40,7 @@ $(document).ready(function () {
         source: vectorSource,
         style: new ol.style.Style({
             image: new ol.style.Icon({
-                anchor: [0.5, 1],
-                src: contextPath + '/js/marker.png'
+                anchor: [0.5, 1]
             })
         })
     });

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="SharedLocation">
+    <!-- 공유된 장소 목록 조회 -->
     <select id="selectSharedLocationsList" parameterType="long" resultType="map">
         SELECT
             s.shared_id,
@@ -10,28 +11,35 @@
             s.shared_at,
             l.location_nm,
             l.location_desc,
+            l.location_x,
+            l.location_y,
             u.username,
             s.like_count,
-            CASE WHEN lk.shared_id IS NOT NULL THEN 'true' ELSE 'false' END as liked
-        FROM
-            shared_locations s
-                INNER JOIN locations l ON s.location_id = l.location_id
-                INNER JOIN users u ON s.shared_user_id = u.id
-                LEFT JOIN location_likes lk ON s.shared_id = lk.shared_id
-                AND lk.user_id = #{value}
-        ORDER BY
-            s.shared_at DESC
+            CASE
+                WHEN lk.shared_id IS NOT NULL THEN 'true'
+                ELSE 'false'
+                END as liked
+        FROM shared_locations s
+                 INNER JOIN locations l ON s.location_id = l.location_id
+                 INNER JOIN users u ON s.shared_user_id = u.id
+                 LEFT JOIN location_likes lk ON s.shared_id = lk.shared_id
+            AND lk.user_id = #{value}
+        ORDER BY s.shared_at DESC
     </select>
 
-
+    <!-- 장소 공유 저장 -->
     <insert id="insertSharedLocation" parameterType="sharedLocationVO">
-        INSERT INTO Shared_Locations (location_id, shared_user_id)
-        VALUES (#{locationId}, #{sharedUserId})
+        INSERT INTO shared_locations (
+            location_id,
+            shared_user_id
+        ) VALUES (
+                     #{locationId},
+                     #{sharedUserId}
+                 )
     </insert>
 
-    <!-- 공유 장소 삭제 -->
+    <!-- 공유 장소 삭제 (좋아요 데이터 포함) -->
     <delete id="deleteSharedLocation" parameterType="map">
-        /* 좋아요 데이터 먼저 삭제 */
         DELETE FROM location_likes
         WHERE shared_id IN (
             SELECT shared_id
@@ -40,7 +48,6 @@
               AND shared_user_id = #{userId}
         );
 
-        /* 그 다음 공유 장소 삭제 */
         DELETE FROM shared_locations
         WHERE location_id = #{locationId}
           AND shared_user_id = #{userId}
@@ -48,34 +55,40 @@
 
     <!-- 좋아요 추가 -->
     <insert id="insertLike" parameterType="map">
-        INSERT INTO location_likes (shared_id, user_id)
-        VALUES (#{sharedId}, #{userId}) ON CONFLICT (shared_id, user_id) DO NOTHING
+        INSERT INTO location_likes (
+            shared_id,
+            user_id
+        ) VALUES (
+                     #{sharedId},
+                     #{userId}
+                 ) ON CONFLICT (shared_id, user_id) DO NOTHING
     </insert>
 
     <!-- 좋아요 제거 -->
     <delete id="deleteLike" parameterType="map">
-        DELETE
-        FROM location_likes
-        WHERE shared_id = #{sharedId}``
+        DELETE FROM location_likes
+        WHERE shared_id = #{sharedId}
           AND user_id = #{userId}
     </delete>
 
-    <!-- 좋아요 데이터 삭제 -->
+    <!-- 특정 공유 장소의 모든 좋아요 삭제 -->
     <delete id="deleteLikesBySharedId" parameterType="int">
         DELETE FROM location_likes
         WHERE shared_id = #{value}
     </delete>
 
-    <!-- 좋아요 카운트 업데이트 -->
+    <!-- 좋아요 수 업데이트 -->
     <update id="updateLikeCount" parameterType="int">
         UPDATE shared_locations
-        SET like_count = (SELECT COUNT(*)
-                          FROM location_likes
-                          WHERE shared_id = #{sharedId})
+        SET like_count = (
+            SELECT COUNT(*)
+            FROM location_likes
+            WHERE shared_id = #{sharedId}
+        )
         WHERE shared_id = #{sharedId}
     </update>
 
-    <!-- shared_id 조회 -->
+    <!-- 사용자별 공유 장소 ID 조회 -->
     <select id="getSharedIdByLocationAndUser" parameterType="map" resultType="int">
         SELECT shared_id
         FROM shared_locations
@@ -83,7 +96,7 @@
           AND shared_user_id = #{userId}
     </select>
 
-    <!-- shared_id 조회 -->
+    <!-- 장소별 공유 ID 조회 -->
     <select id="getSharedIdByLocationId" parameterType="int" resultType="int">
         SELECT shared_id
         FROM shared_locations
@@ -97,29 +110,29 @@
         WHERE shared_id = #{value}
     </select>
 
-    <!-- Hot 위치 목록 조회 (좋아요 5개 이상) -->
+    <!-- 인기 장소 목록 조회 (좋아요 5개 이상) -->
     <select id="selectHotLocationsList" resultType="map">
         SELECT
-        s.shared_id,
-        s.location_id,
-        s.shared_user_id,
-        s.shared_at,
-        l.location_nm,
-        l.location_desc,
-        l.location_x as location_x,    <!-- 추가 -->
-        l.location_y as location_y,    <!-- 추가 -->
-        u.username,
-        s.like_count
-        FROM
-        shared_locations s
-        INNER JOIN locations l ON s.location_id = l.location_id
-        INNER JOIN users u ON s.shared_user_id = u.id
-        WHERE
-        s.like_count >= 5
+            s.shared_id,
+            s.location_id,
+            s.shared_user_id,
+            s.shared_at,
+            l.location_nm,
+            l.location_desc,
+            l.location_x,
+            l.location_y,
+            u.username,
+            s.like_count
+        FROM shared_locations s
+                 INNER JOIN locations l ON s.location_id = l.location_id
+                 INNER JOIN users u ON s.shared_user_id = u.id
+        WHERE s.like_count >= 5
         ORDER BY
-        s.like_count DESC, s.shared_at DESC
+            s.like_count DESC,
+            s.shared_at DESC
     </select>
 
+    <!-- 인기 장소 ID 목록 조회 -->
     <select id="selectHotLocationIds" resultType="int">
         SELECT location_id
         FROM shared_locations

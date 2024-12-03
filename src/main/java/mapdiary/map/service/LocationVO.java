@@ -1,8 +1,6 @@
 package mapdiary.map.service;
 
 public class LocationVO {
-    private static final long serialVersionUID = 1L;
-
     private Long locationId;
     private Long userId;
     private String locationNm;
