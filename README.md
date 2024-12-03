@@ -1,6 +1,6 @@
 # MapDiary
 
-**MapDiary**
+**나만의 지도 일기장**
 
 ---
 
