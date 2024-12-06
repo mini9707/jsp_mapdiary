@@ -3,3 +3,4 @@
 .project
 target/
 src/main/resources/egovframework/properties/*.properties
+src/main/webapp/js/apikey.js

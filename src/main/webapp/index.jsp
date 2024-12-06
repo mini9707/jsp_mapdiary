@@ -19,12 +19,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/build/ol.js">//OpenLayers api</script>
 
+    <script src="<c:url value='/js/apikey.js'/>"></script>
+
     <!-- 전역 변수 -->
     <script>
         var contextPath = "${pageContext.request.contextPath}";
         var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}";
         var userId = "${sessionScope.user.id}";
-        var kakaoApiKey = "${kakaoApiKey}";
+        var kakaoApiKey = KAKAO_API_KEY;
     </script>
 </head>
 
@@ -111,7 +113,7 @@
 <!-- Scripts -->
 <script src="<c:url value='/js/sweetalert2.all.min.js'/>"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb7f75f8c2f033a54bf2eb635bbe3f91&libraries=services"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_API_KEY}&libraries=services"></script>
 <script src="<c:url value='/js/kakaoSearch.js'/>"></script>
 <script src="<c:url value='/js/util.js'/>"></script>
 <script src="<c:url value='/js/index.js'/>"></script>

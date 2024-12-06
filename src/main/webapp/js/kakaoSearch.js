@@ -55,7 +55,7 @@ class SearchManager {
     }
 
 
-    // * 카카오 주소 검색 팝업 오픈
+    //  카카오 주소 검색 팝업 오픈
     openKakaoAddress() {
         new daum.Postcode({
             oncomplete: (data) => {
@@ -72,6 +72,7 @@ class SearchManager {
     // 주소로 좌표 검색
     // 카카오 로컬 API를 사용하여 주소의 좌표를 검색하고 지도에 표시
     getCoordinates(address) {
+        console.log('API Key:', kakaoApiKey);  // API 키 확인
         $.ajax({
             url: `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(address)}`,
             type: 'GET',
@@ -103,9 +104,9 @@ class SearchManager {
                         if (this.map) {
                             // 검색 위치로 지도 이동
                             this.map.getView().animate({
-                                center: olCoordinates,  // 중심 좌표
-                                zoom: 17,              // 줌 레벨
-                                duration: 800          // 애니메이션 시간(ms)
+                                center: olCoordinates,
+                                zoom: 17,
+                                duration: 800
                             });
                             // 검색 위치에 마커 추가
                             this.addMarker(olCoordinates);

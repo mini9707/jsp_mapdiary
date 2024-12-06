@@ -107,26 +107,4 @@ public class SharedLocationController {
     public List<Integer> getHotLocationIds() {
         return sharedLocationService.getHotLocationIds();
     }
-
-    // 요청 객체 DTO
-    public static class SharedLocationDeleteRequestDto {
-        private int locationId;
-        private int sharedUserId;
-
-        public int getLocationId() {
-            return locationId;
-        }
-
-        public void setLocationId(int locationId) {
-            this.locationId = locationId;
-        }
-
-        public int getSharedUserId() {
-            return sharedUserId;
-        }
-
-        public void setShared(int sharedUserId) {
-            this.sharedUserId = sharedUserId;
-        }
-    }
 }
