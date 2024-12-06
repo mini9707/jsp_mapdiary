@@ -38,4 +38,9 @@ public class MapServiceImpl extends EgovAbstractServiceImpl implements MapServic
             throw new RuntimeException("is_shared 상태 업데이트 중 오류 발생", e);
         }
     }
+
+    @Override
+    public void deleteLocation(Long locationId) throws Exception {
+        mapDAO.deleteLocation(locationId);
+    }
 }

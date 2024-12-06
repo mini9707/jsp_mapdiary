@@ -6,31 +6,30 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>Map</title>
-    <!-- OpenLayers CSS -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/css/ol.css">
-    <!-- jQuery -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/css/ol.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sweetalert2.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
+
+    <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- OpenLayers JS -->
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@latest/en/v6.5.0/build/ol.js">//OpenLayers api</script>
 
-    <!-- contextPath 설정 -->
-    <script type="text/javascript">
+    <!-- 전역 변수 -->
+    <script>
         var contextPath = "${pageContext.request.contextPath}";
-        var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}";// 세션에서 사용자 객체 가져오기
-        var userId = "${sessionScope.user.id}";  // userId 추가
+        var username = "${sessionScope.user.username != null ? sessionScope.user.username : ''}";
+        var userId = "${sessionScope.user.id}";
+        var kakaoApiKey = "${kakaoApiKey}";
     </script>
-
-    <!-- 커스텀 CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" type="text/css">
 </head>
 
 <body>
-<!-- 네비게이션 바 include -->
+<!-- 네비게이션 바 -->
 <jsp:include page="/WEB-INF/jsp/nav.jsp" />
 
 <!-- 사이드바 -->
@@ -46,17 +45,12 @@
     </div>
 
     <div class="layer-contents">
-        <!-- 인기 레이어 탭 -->
         <div class="layer-content active" id="hot-content">
             <div class="location-list" id="hot-locations"></div>
         </div>
-
-        <!-- 공유 레이어 탭 -->
         <div class="layer-content" id="shared-content">
             <div class="location-list" id="shared-locations"></div>
         </div>
-
-        <!-- 내 레이어 탭 -->
         <div class="layer-content" id="my-content">
             <div class="layer-list"></div>
             <div class="location-list" id="my-locations"></div>
@@ -64,40 +58,29 @@
     </div>
 </div>
 
-<!-- 레이어 버튼 추가 -->
+<!-- 레이어 버튼 -->
 <div class="layer-buttons">
     <button id="traffic_layer_btn">교통 레이어</button>
     <button id="cctv_layer_btn">CCTV 레이어</button>
     <button id="add_location_btn" style="display: none;">내 장소 추가</button>
 </div>
 
-<div id="cctv-popup" style="display: none;
-position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; height: 300px; z-index: 9999; padding: 10px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <div id="cctvTitle" style="color: #fff;">제목</div>
-        <button id="cctvStop" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">닫기</button>
-    </div>
-    <div style="height: 250px;">
-        <div style="border: 1px solid #000000; height: 88%;" id="cctvMain"></div>
-    </div>
-</div>
-
+<!-- 지도 -->
 <div id="map"></div>
 
 <!-- CCTV 팝업 -->
-<div id="cctv-popup" style="display: none;
-position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; height: 300px; z-index: 9999; padding: 10px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <div id="cctvTitle" style="color: #fff;">제목</div>
-        <button id="cctvStop" style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">닫기</button>
+<div id="cctv-popup" class="cctv-popup">
+    <div class="cctv-header">
+        <div id="cctvTitle"></div>
+        <button id="cctvStop">닫기</button>
     </div>
-    <div style="height: 250px;">
-        <div style="border: 1px solid #000000; height: 88%;" id="cctvMain"></div>
+    <div class="cctv-content">
+        <div id="cctvMain"></div>
     </div>
 </div>
 
 <!-- 장소 정보 팝업 -->
-<div id="location-popup" class="popup" style="display: none;">
+<div id="location-popup" class="popup">
     <div class="popup-header">
         <h3 id="location-title"></h3>
         <button id="location-close-btn" class="close-btn">&times;</button>
@@ -110,7 +93,7 @@ position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; he
 </div>
 
 <!-- 장소 추가 팝업 -->
-<div id="add-location-popup" class="popup" style="display: none;">
+<div id="add-location-popup" class="popup">
     <div class="popup-header">
         <h3>새 장소 추가</h3>
         <button id="add-location-close-btn" class="close-btn">&times;</button>
@@ -125,9 +108,14 @@ position: absolute; top: 250px; right: 2%; background: #5b5858; width: 350px; he
     </div>
 </div>
 
+<!-- Scripts -->
+<script src="<c:url value='/js/sweetalert2.all.min.js'/>"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb7f75f8c2f033a54bf2eb635bbe3f91&libraries=services"></script>
+<script src="<c:url value='/js/kakaoSearch.js'/>"></script>
+<script src="<c:url value='/js/util.js'/>"></script>
 <script src="<c:url value='/js/index.js'/>"></script>
 <script src="<c:url value='/js/hls.js'/>"></script>
 <script src="<c:url value='/js/cctv.js'/>"></script>
 </body>
-
 </html>

@@ -5,13 +5,15 @@ import mapdiary.map.service.MapService;
 import mapdiary.user.service.UserVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller
@@ -29,6 +31,18 @@ public class MapController {
             locationVO.setUserId(user.getId());
         }
         return mapService.insertLocation(locationVO);
+    }
+
+    // 위치 정보 삭제
+    @RequestMapping(value = "/map/deleteLocation.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> deleteLocation(@RequestBody LocationVO locationVO) {
+        try {
+            mapService.deleteLocation(locationVO.getLocationId());
+            return ResponseEntity.ok("장소가 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("장소 삭제에 실패했습니다: " + e.getMessage());
+        }
     }
 
     // 위치 정보 전체 리스트

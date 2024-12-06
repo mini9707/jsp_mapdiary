@@ -1,38 +1,36 @@
 /* Bootstrap Icons CSS */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
 
-.like-section {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 5px;
+:root {
+    --primary-color: #00c73c;
+    --secondary-color: #007bff;
+    --text-color: #333;
+    --border-color: #eee;
 }
 
-.like-button {
-    cursor: pointer;
-    color: #dc3545;
+/* ===== 반응형 디자인 ===== */
+@media screen and (max-width: 768px) {
+    #sidebar {
+        width: 100%;
+        height: 50%;
+        bottom: 0;
+        top: auto;
+    }
+
+    .map-shifted {
+        margin-left: 0;
+        height: 50%;
+    }
 }
 
-.like-button:hover {
-    opacity: 0.8;
-}
-
-.bi-heart-fill {
-    color: #dc3545;
-}
-
-.bi-heart {
-    color: #6c757d;
-}
-
-/* 기본 리셋 */
+/* ===== 기본 스타일 ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 네비게이션 바는 기존 스타일 유지 */
+/* ===== 레이아웃 ===== */
 .navbar {
     position: fixed;
     top: 0;
@@ -40,22 +38,21 @@
     z-index: 1001;
 }
 
-/* 메인 컨테이너 - 네비게이션 바 아래 영역 */
 .main-container {
     position: fixed;
-    top: 56px; /* 네비게이션 바 높이만큼 아래로 */
+    top: 56px;
     left: 0;
     right: 0;
     bottom: 0;
     display: flex;
 }
 
-/* 지도 컨테이너 */
+/* ===== 지도 스타일 ===== */
 #map {
     position: absolute;
     left: 0;
     right: 0;
-    top: 56px; /* 네비게이션 바 높이만큼 아래로 */
+    top: 56px;
     bottom: 0;
     transition: margin-left 0.3s ease;
 }
@@ -64,11 +61,11 @@
     margin-left: 360px;
 }
 
-/* 사이드바 기본 스타일 */
+/* ===== 사이드바 스타일 ===== */
 #sidebar {
     position: absolute;
     left: 0;
-    top: 56px; /* 네비게이션 바 높이만큼 아래로 */
+    top: 56px;
     bottom: 0;
     width: 360px;
     background: white;
@@ -83,7 +80,6 @@
     transform: translateX(-360px);
 }
 
-/* 사이드바 토글 버튼 */
 .sidebar-toggle-btn {
     position: absolute;
     left: 360px;
@@ -112,7 +108,7 @@
     transform: rotate(180deg);
 }
 
-/* 나머지 스타일은 동일 */
+/* ===== 사이드바 헤더 ===== */
 .sidebar-header {
     padding: 15px;
     background: #00c73c;
@@ -125,6 +121,7 @@
     font-weight: 500;
 }
 
+/* ===== 탭 스타일 ===== */
 .layer-tabs {
     display: flex;
     background: #fff;
@@ -148,45 +145,7 @@
     border-bottom: 2px solid #00c73c;
 }
 
-/* 검색 영역 */
-.search-box {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    background: #fff;
-}
-
-.category-select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.search-input-wrapper {
-    display: flex;
-    gap: 8px;
-}
-
-.search-input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.search-btn {
-    padding: 8px 15px;
-    background: #00c73c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* 레이어 콘텐츠 */
+/* ===== 레이어 콘텐츠 ===== */
 .layer-contents {
     flex: 1;
     overflow-y: auto;
@@ -201,68 +160,160 @@
     display: block;
 }
 
-/* 레이어 아이템 */
+/* ===== 레이어 버튼 스타일 ===== */
+.layer-buttons {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.layer-buttons button {
+    padding: 14px 28px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.layer-buttons button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.layer-buttons button.active {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+/* ===== 레이어 리스트 스타일 ===== */
 .layer-list {
-    background: #f8f8f8;
+    padding: 10px;
 }
 
 .layer-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
+    padding: 8px;
     border-bottom: 1px solid #eee;
-    background: #fff;
 }
 
+.layer-item:last-child {
+    border-bottom: none;
+}
+
+/* ===== 레이어 토글 스타일 ===== */
 .layer-toggle {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.layer-toggle input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
-
 .layer-toggle label {
     font-size: 14px;
-    color: #333;
-    cursor: pointer;
-}
-
-.label-toggle {
-    margin-left: 15px;
-}
-
-.label-toggle-btn {
-    font-size: 12px;
     color: #666;
 }
 
-.location-count {
-    color: #666;
-    font-size: 13px;
+/* ===== 위치 아이템 스타일 ===== */
+.location-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.location-item:hover {
+    background: #f8f8f8;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .item-info {
     flex: 1;
-    cursor: pointer;  /* 클릭 가능함을 표시 */
-    padding-right: 10px;  /* 토글 스위치와의 간격 */
+    cursor: pointer;
+    padding-right: 10px;
 }
 
 .item-info:hover {
-    background-color: #f5f5f5;  /* 호버 효과 */
+    background-color: #f5f5f5;
 }
 
-/* 토글 스위치 스타일 */
+.location-item h4 {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.location-item p {
+    font-size: 13px;
+    color: #666;
+    margin: 3px 0;
+}
+
+/* ===== 좋아요 버튼 스타일 ===== */
+.like-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.like-button {
+    cursor: pointer;
+    color: #dc3545;
+}
+
+.like-button:hover {
+    opacity: 0.8;
+}
+
+.bi-heart-fill {
+    color: #dc3545;
+}
+
+.bi-heart {
+    color: #6c757d;
+}
+
+/* ===== 삭제 버튼 스타일 ===== */
+.delete-btn {
+    cursor: pointer;
+    color: #dc3545;
+    background: none;
+    border: none;
+    padding: 5px;
+    margin-right: 5px;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+.bi-trash {
+    font-size: 1.1em;
+}
+
+/* ===== 토글 스위치 스타일 ===== */
 .switch {
     position: relative;
     display: inline-block;
     width: 40px;
     height: 20px;
-    flex-shrink: 0;  /* 크기 고정 */
+    flex-shrink: 0;
 }
 
 .switch input {
@@ -303,284 +354,9 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-.item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;  /* 상단 정렬로 변경 */
-    width: 100%;
-}
-
-
-/* 위치 목록 */
-.location-list {
-    padding: 10px;
-}
-
-.location-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.location-item:hover {
-    background: #f8f8f8;
-}
-
-.location-item h4 {
-    font-size: 15px;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.location-item p {
-    font-size: 13px;
-    color: #666;
-    margin: 3px 0;
-}
-
-/* 스크롤바 스타일 */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.item-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.share-btn {
-    background: none;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.share-btn:hover {
-    transform: scale(1.1);
-}
-
-.share-btn.shared {
-    color: #2196F3;
-}
-
-.share-btn i {
-    font-size: 1.2em;
-}
-
+/* ===== 팝업 스타일 ===== */
 .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.popup input,
-.popup textarea {
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-#add_location_btn.active {
-    background-color: #e70e50;
-}
-
-/* 토스트 메시지 스타일 */
-.toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    z-index: 1000;
-    animation: fadeInOut 2s ease;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
-}
-
-/* 레이어 버튼 컨테이너 */
-.layer-buttons {
-    position: absolute;
-    right: 10px;  /* 오른쪽으로 변경 */
-    top: 66px;  /* 네비게이션 바(56px) + 여백(10px) */
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-/* 레이어 버튼 스타일 */
-.layer-buttons button {
-    background: #3b5bdb;  /* 파란색 계열로 변경 */
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    cursor: pointer;
-    font-size: 13px;
-    color: white;  /* 글자색 흰색으로 */
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 120px;
-    text-align: left;
-    transition: all 0.2s ease;
-}
-
-.layer-buttons button:hover {
-    background: #364fc7;  /* 호버시 더 진한 파란색 */
-}
-
-.layer-buttons button.active {
-    background: #162682;  /* 활성화시 더 진한 파란색 */
-    color: white;
-}
-
-/* 기존 스타일 유지하고 팝업 관련 스타일 추가 */
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-    min-width: 300px;
-}
-
-.popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.popup-content {
-    margin-bottom: 15px;
-}
-
-.popup input,
-.popup textarea {
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.popup textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.popup-buttons button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.popup-buttons button:first-child {
-    background: #00c73c;
-    color: white;
-}
-
-.popup-buttons button:last-child {
-    background: #f44336;
-    color: white;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0 5px;
-}
-
-.close-btn:hover {
-    color: #e70e50;
-}
-
-/* 레이어 버튼 스타일 수정 */
-.layer-buttons {
-    position: absolute;
-    right: 10px;
-    top: 66px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.layer-buttons button {
-    background: #3b5bdb;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    cursor: pointer;
-    font-size: 13px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 120px;
-    text-align: left;
-    transition: all 0.2s ease;
-}
-
-.layer-buttons button:hover {
-    background: #364fc7;
-}
-
-.layer-buttons button.active {
-    background: #162682;
-}
-
-/* 팝업 공통 스타일 */
-.popup {
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -594,9 +370,9 @@ input:checked + .slider:before {
     z-index: 1000;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: popupFadeIn 0.3s ease;
 }
 
-/* 팝업 헤더 */
 .popup-header {
     display: flex;
     justify-content: space-between;
@@ -628,12 +404,28 @@ input:checked + .slider:before {
     transform: rotate(90deg);
 }
 
-/* 팝업 컨텐츠 */
 .popup-content {
     margin-bottom: 20px;
 }
 
-/* 장소 추가 팝업 스타일 */
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.popup-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ===== 장소 추가 팝업 스타일 ===== */
 #add-location-popup input,
 #add-location-popup textarea {
     width: 100%;
@@ -657,7 +449,42 @@ input:checked + .slider:before {
     resize: vertical;
 }
 
-/* 장소 정보 팝업 스타일 */
+#save-location-btn {
+    background: #00c73c;
+    color: white;
+}
+
+#save-location-btn:hover {
+    background: #00a032;
+    transform: translateY(-2px);
+}
+
+#cancel-location-btn {
+    background: #f44336;
+    color: white;
+}
+
+#cancel-location-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* ===== 공유 버튼 스타일 ===== */
+.share-btn {
+    cursor: pointer;
+    color: #2196F3;
+    background: none;
+    border: none;
+    padding: 5px;
+    transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+/* ===== 장소 정보 팝업 스타일 ===== */
 #location-popup .popup-content {
     color: #333;
 }
@@ -682,49 +509,7 @@ input:checked + .slider:before {
     font-style: italic;
 }
 
-/* 버튼 스타일 */
-.popup-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.popup-buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-#save-location-btn {
-    background: #00c73c;
-    color: white;
-}
-
-#save-location-btn:hover {
-    background: #00a032;
-    transform: translateY(-2px);
-}
-
-#cancel-location-btn {
-    background: #f44336;
-    color: white;
-}
-
-#cancel-location-btn:hover {
-    background: #d32f2f;
-    transform: translateY(-2px);
-}
-
-/* 애니메이션 효과 */
-.popup {
-    animation: popupFadeIn 0.3s ease;
-}
-
+/* ===== 애니메이션 ===== */
 @keyframes popupFadeIn {
     from {
         opacity: 0;
@@ -734,4 +519,111 @@ input:checked + .slider:before {
         opacity: 1;
         transform: translate(-50%, -50%);
     }
+}
+
+/* ===== 스크롤바 스타일 ===== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ===== CCTV 팝업 스타일 ===== */
+.cctv-popup {
+    display: none;
+    position: absolute;
+    top: 250px;
+    right: 2%;
+    background: #5b5858;
+    width: 350px;
+    height: 300px;
+    z-index: 9999;
+    padding: 10px;
+}
+
+.cctv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#cctvTitle {
+    color: #fff;
+}
+
+#cctvStop {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.cctv-content {
+    height: 250px;
+}
+
+#cctvMain {
+    border: 1px solid #000000;
+    height: 88%;
+}
+
+/* ===== 알림 메시지 스타일 ===== */
+.no-locations {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.error-message {
+    padding: 20px;
+    text-align: center;
+    color: #dc3545;
+}
+
+/* ===== 사용자 정보 스타일 ===== */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f8f8f8;
+}
+
+/* ===== 작성자 정보 스타일 ===== */
+.author-info {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* ===== 좋아요 카운트 스타일 ===== */
+.like-count {
+    font-size: 12px;
+    color: #666;
+}
+
+/* ===== 공유 상태 표시 스타일 ===== */
+.shared-status {
+    font-size: 12px;
+    color: #2196F3;
+    margin-left: 5px;
+}
+
+/* ===== 커스텀 알림창 스타일 ===== */
+.custom-alert-container {
+    z-index: 9999;
 }

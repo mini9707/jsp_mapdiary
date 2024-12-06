@@ -1,12 +1,24 @@
+// OpenLayers 지도 객체
 var map;
+
+// 각 탭별 레이어의 표시 상태 (key: 레이어 인덱스, value: 표시 여부)
 var sharedLayerStates = {};
 var hotLayerStates = {};
 var myLayerStates = {};
-var allLayers = {};  // 모든 레이어를 저장할 객체
-let isAddingLocation = false;  // 장소 추가 모드 상태 변수
-let currentCoordinates = null;  // 선택된 좌표 저장 변수
+
+// 지도에 추가된 모든 레이어 객체를 저장
+// key: 레이어ID, value: OpenLayers Layer 객체
+var allLayers = {};
+
+// 장소 추가 모드의 활성화 상태
+let isAddingLocation = false;
+
+// 장소 추가 시 선택된 지도 좌표를 임시 저장
+let currentCoordinates = null;
 
 $(document).ready(function () {
+    const searchManager = new SearchManager();
+
     // 로그인 상태 관리
     if (username) {
         $('#username').text(username + '님').show();
@@ -24,10 +36,11 @@ $(document).ready(function () {
         $.ajax({
             url: contextPath + "/logout.do",
             type: "POST",
-            success: function() { location.reload(); },
+            success: function() {
+                location.reload();
+            },
             error: function(xhr, status, error) {
-                console.error('로그아웃 실패:', error);
-                alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
+                util.alert('error', '로그아웃에 실패했습니다', '로그아웃 기능에 오류가 발생했습니다.');
             }
         });
     });
@@ -41,6 +54,8 @@ $(document).ready(function () {
             zoom: 11
         })
     });
+
+    searchManager.setMap(map);
 
     // 교통정보 레이어
     const itsLyr = new ol.layer.Tile({
@@ -64,10 +79,9 @@ $(document).ready(function () {
     $('.layer-tab').click(function() {
         const tabId = $(this).data('tab');
 
-        // '내 레이어' 탭 클릭 시 로그인 체크
         if (tabId === 'my' && !username) {
-            alert('로그인이 필요한 서비스입니다.');
-            return;  // 탭 전환 중단
+            util.alert('warning', '로그인 필요', '이 서비스를 이용하려면 로그인이 필요합니다.');
+            return;
         }
 
         $('.layer-tab').removeClass('active');
@@ -95,13 +109,12 @@ $(document).ready(function () {
 
     // 내 장소 추가 버튼 클릭 이벤트
     $('#add_location_btn').click(function() {
-
         $(this).toggleClass('active');
         isAddingLocation = $(this).hasClass('active');
         $('#map').css('cursor', isAddingLocation ? 'crosshair' : 'default');
 
         if (isAddingLocation) {
-            alert('지도에서 추가할 위치를 클릭해주세요.');
+            util.alert('info', '위치 선택', '지도에서 추가할 위치를 클릭해주세요.');
         }
     });
 
@@ -114,7 +127,6 @@ $(document).ready(function () {
         }
     });
 
-
     // 초기 데이터 로드
     updateHotLocations();
 });
@@ -122,17 +134,15 @@ $(document).ready(function () {
 // 내 레이어 업데이트 함수 수정
 function updateMyLocations() {
     if (!username || !userId) {
-        alert('로그인이 필요한 서비스입니다.');
+        util.alert('warning', '로그인 필요', '이 서비스를 이용하려면 로그인이 필요합니다.');
         return;
     }
-
-    console.log('updateMyLocations 실행, userId:', userId); // 디버깅
 
     const locationsList = $('#my-locations');
     locationsList.empty();
 
     // WFS 요청 URL과 파라미터
-    const wfsUrl = 'http://localhost:8080/geoserver/new/ows';  // 전체 URL로 수정
+    const wfsUrl = 'http://localhost:8080/geoserver/new/ows';
     const wfsParams = {
         service: 'WFS',
         version: '1.0.0',
@@ -143,19 +153,17 @@ function updateMyLocations() {
         CQL_FILTER: `user_id=${userId}`
     };
 
-    console.log('WFS 요청 정보:', { url: wfsUrl, params: wfsParams }); // 디버깅
-
     $.ajax({
         url: wfsUrl,
         data: wfsParams,
         dataType: 'json',
         success: function(response) {
-            console.log('WFS 응답:', response); // 디버깅
             if (response.features && response.features.length > 0) {
                 response.features.forEach((feature, index) => {
                     const wasVisible = myLayerStates[index] || false;
                     const coords = feature.geometry.coordinates;
 
+                    console.log(feature.properties)
                     // 레이어 생성
                     const location = {
                         location_x: coords[0],
@@ -174,9 +182,14 @@ function updateMyLocations() {
                                 <div class="item-info">
                                     <h4>${feature.properties.location_nm || '이름 없음'}</h4>
                                     <p>${feature.properties.location_desc || '설명 없음'}</p>
+                                    <p>작성자: ${username}</p>  <!-- 현재 로그인한 사용자명 표시 -->
                                 </div>
                                 <div class="item-controls">
                                     <div class="control-group">
+                                        <button class="delete-btn" 
+                                                data-location-id="${feature.properties.location_id}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
                                         <button class="share-btn ${feature.properties.is_shared ? 'shared' : ''}" 
                                                 data-location-id="${feature.properties.location_id}">
                                             <i class="bi ${feature.properties.is_shared ? 'bi-share-fill' : 'bi-share'}"></i>
@@ -199,6 +212,32 @@ function updateMyLocations() {
                         const locationId = $(this).data('location-id');
                         const isCurrentlyShared = $(this).hasClass('shared');
                         updateSharedStatus(locationId, !isCurrentlyShared);
+                    });
+
+                    // 삭제 버튼 클릭 이벤트 추가
+                    locationItem.find('.delete-btn').on('click', function() {
+                        const locationId = $(this).data('location-id');
+                        if(confirm('정말 이 장소를 삭제하시겠습니까?')) {
+                            $.ajax({
+                                url: contextPath + '/map/deleteLocation.do',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify({ locationId: locationId }),
+                                beforeSend: function() {
+                                },
+                                success: function(response) {
+                                    util.alert('info', '장소 삭제', '해당 장소가 삭제되었습니다.');
+                                    updateMyLocations();
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('장소 삭제 실패:', error);
+                                    console.error('상태 코드:', xhr.status);
+                                    console.error('응답 텍스트:', xhr.responseText);
+                                    util.alert('error', '장소 삭제', '해당 장소 삭제 중 오류가 발생했습니다.');
+                                    alert('장소 삭제 중 오류가 발생했습니다.');
+                                }
+                            });
+                        }
                     });
 
                     // 토글 이벤트
@@ -248,12 +287,11 @@ function removeLayer(layerId) {
     }
 }
 
-// 레이어 추가 함수 수정 (매개변수 이름 수정)
-function addLayer(location, index, type) {  // isShared를 type으로 변경
+// 레이어 추가 함수
+function addLayer(location, index, type) {
     const layerId = type + '_' + index;
-
-    // 상태 확인 (기본값은 false)
     let isVisible;
+
     switch(type) {
         case 'hot':
             isVisible = hotLayerStates[index] || false;
@@ -282,7 +320,7 @@ function addLayer(location, index, type) {  // isShared를 type으로 변경
                 src: contextPath + '/img/location.png'
             })
         }),
-        visible: isVisible
+        visible: false
     });
 
     vectorSource.addFeature(feature);
@@ -315,7 +353,6 @@ function updateHotLocations() {
 // 공유 상태 업데이트 함수 추가
 function updateSharedStatus(locationId, isShared) {
     if (isShared) {
-        // locations 테이블의 is_shared 상태 업데이트
         $.ajax({
             url: contextPath + '/updateLocationSharedStatus.do',
             type: 'POST',
@@ -325,12 +362,10 @@ function updateSharedStatus(locationId, isShared) {
                 isShared: true
             }),
             success: function(response) {
-                // shared_locations 테이블에 추가
                 const sharedLocation = {
                     locationId: locationId,
-                    sharedUserId: userId  // userId -> sharedUserId로 변경
+                    sharedUserId: userId
                 };
-
                 $.ajax({
                     url: contextPath + '/saveSharedLocation.do',
                     type: 'POST',
@@ -344,14 +379,12 @@ function updateSharedStatus(locationId, isShared) {
                     },
                     error: function(xhr, status, error) {
                         console.error('공유 실패:', error);
-                        console.log('에러 응답:', xhr.responseText);
                         showToast('공유 처리 중 오류가 발생했습니다.');
                     }
                 });
             }
         });
     } else {
-        // 공유 취소 전 좋아요 수 확인
         $.ajax({
             url: contextPath + '/checkLikes.do',
             type: 'GET',
@@ -359,13 +392,28 @@ function updateSharedStatus(locationId, isShared) {
             success: function(response) {
                 if (response.success) {
                     if (response.likeCount > 0) {
-                        if (confirm('이 장소에 좋아요가 있습니다. 정말 공유를 취소하시겠습니까?')) {
-                            deleteSharedLocation(locationId);
-                        }
+                        // 좋아요가 있는 경우 확인 창 표시
+                        util.alert(
+                            'question',
+                            '공유 취소 확인',
+                            '이 장소에 좋아요가 있습니다.\n정말 공유를 취소하시겠습니까?',
+                            function() {
+                                // 확인 버튼 클릭 시
+                                deleteSharedLocation(locationId);
+                            },
+                            function() {
+                                // 취소 버튼 클릭 시
+                                return false; // 아무 동작도 하지 않음
+                            }
+                        );
                     } else {
+                        // 좋아요가 없는 경우 바로 삭제
                         deleteSharedLocation(locationId);
                     }
                 }
+            },
+            error: function(xhr, status, error) {
+                util.alert('error', '확인 실패', '좋아요 개수를 확인하는 중 오류가 발생했습니다.');
             }
         });
     }
@@ -373,17 +421,15 @@ function updateSharedStatus(locationId, isShared) {
 
 // 공유 삭제 함수
 function deleteSharedLocation(locationId) {
-    // 먼저 locations 테이블의 is_shared 상태 업데이트
     $.ajax({
-        url: contextPath + '/updateLocationSharedStatus.do',  // 올바른 URL
+        url: contextPath + '/updateLocationSharedStatus.do',
         type: 'POST',
-        contentType: 'application/json',  // JSON 형식으로 전송
-        data: JSON.stringify({  // RequestDto 형식에 맞춰 데이터 전송
+        contentType: 'application/json',
+        data: JSON.stringify({
             locationId: locationId,
             isShared: false
         }),
         success: function(response) {
-            // 그 다음 shared_locations 테이블에서 삭제
             const deleteRequest = {
                 locationId: locationId,
                 sharedUserId: userId
@@ -612,9 +658,8 @@ function handleMapClick(evt) {
             return;
         }
 
-        // 서버에 저장 요청
         $.ajax({
-            url: contextPath + '/map/insertLocation.do',  // URL 확인
+            url: contextPath + '/map/insertLocation.do',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -627,9 +672,7 @@ function handleMapClick(evt) {
             success: function(response) {
                 if (response) {
                     alert('장소가 추가되었습니다.');
-                    // 팝업 닫기
                     closeAddLocationPopup();
-                    // 내 레이어 탭 새로고침
                     updateMyLocations();
                 } else {
                     alert('장소 추가에 실패했습니다.');
@@ -669,15 +712,12 @@ function closeAddLocationPopup() {
     $('#map').css('cursor', 'default');
 }
 
-
 // 장소 추가 클릭 핸들러
 function handleAddLocationClick(evt) {
     currentCoordinates = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
 
-    // 팝업 표시
     $('#add-location-popup').show();
 
-    // 저장 버튼 클릭 이벤트
     $('#save-location-btn').one('click', function() {
         const locationName = $('#location-name').val();
         const locationDesc = $('#location-desc').val();
@@ -687,18 +727,17 @@ function handleAddLocationClick(evt) {
             return;
         }
 
-        // 서버에 저장 요청
         $.ajax({
             url: contextPath + '/map/insertLocation.do',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                locationNm: locationName,      // LocationVO 필드명에 맞춤
-                locationDesc: locationDesc,    // LocationVO 필드명에 맞춤
+                locationNm: locationName,
+                locationDesc: locationDesc,
                 locationX: currentCoordinates[0],
                 locationY: currentCoordinates[1]
             }),
-            success: function(locationVO) {    // LocationVO 객체가 반환됨
+            success: function(locationVO) {
                 alert('장소가 추가되었습니다.');
                 closeAddLocationPopup();
                 updateMyLocations();
@@ -710,6 +749,7 @@ function handleAddLocationClick(evt) {
         });
     });
 }
+
 // 레이어 정보 팝업 표시
 function showLayerInfo(feature) {
     const properties = feature.get('properties');
@@ -723,5 +763,6 @@ function showLayerInfo(feature) {
 $('#location-close-btn').click(function() {
     $('#location-popup').hide();
 });
+
 // 팝업 닫기 버튼 이벤트
 $('#add-location-close-btn, #cancel-location-btn').click(closeAddLocationPopup);

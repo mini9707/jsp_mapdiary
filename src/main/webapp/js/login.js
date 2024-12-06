@@ -1,21 +1,42 @@
 $(document).ready(function () {
     $('#loginForm').submit(function (e) {
-        e.preventDefault(); // 기본 폼 제출 방지
+        e.preventDefault();
 
         const username = $('#username').val();
         const password = $('#password').val();
+
+        if (!username.trim()) {
+            util.alert("warning", "입력 오류", "사용자 이름을 입력해주세요.");
+            return;
+        }
+        if (!password.trim()) {
+            util.alert("warning", "입력 오류", "비밀번호를 입력해주세요.");
+            return;
+        }
 
         $.ajax({
             url: contextPath + "/login.do",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ username: username, password: password }),
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
             success: function (response) {
-                alert(username+"님 환영합니다");
-                window.location.href = contextPath + "/" ;
+                if (response === "success") {
+                    util.alert("success", "로그인 성공", username + "님 환영합니다", function () {
+                        window.location.href = contextPath + "/";
+                    });
+                } else {
+                    util.alert("error", "로그인 실패", response);
+                }
             },
-            error: function (error) {
-                alert("로그인 실패: 사용자 이름 또는 비밀번호가 잘못되었습니다.");
+            error: function (xhr) {
+                let errorMessage = "로그인 중 오류가 발생했습니다";
+                if (xhr.responseText) {
+                    errorMessage = xhr.responseText;
+                }
+                util.alert("error", "로그인 실패", errorMessage);
             }
         });
     });

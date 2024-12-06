@@ -38,4 +38,9 @@
         SET is_shared = #{isShared}
         WHERE location_id = #{locationId}
     </update>
+
+    <delete id="deleteLocation" parameterType="long">
+        DELETE FROM locations
+        WHERE location_id = #{locationId}
+    </delete>
 </mapper>

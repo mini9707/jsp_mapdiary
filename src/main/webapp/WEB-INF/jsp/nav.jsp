@@ -16,13 +16,13 @@
 
   .logo a {
     text-decoration: none;
-    color: #3b5bdb;  /* 로고 색상을 파란색으로 변경 */
+    color: #3b5bdb;
     font-size: 24px;
     font-weight: bold;
   }
 
   .logo a:hover {
-    color: #364fc7;  /* 호버시 더 진한 파란색 */
+    color: #364fc7;
   }
 
   /* 네비게이션 링크 스타일 */
@@ -33,7 +33,7 @@
 
   .nav-links a {
     text-decoration: none;
-    color: #495057;  /* 기본 텍스트 색상 */
+    color: #495057;
     font-weight: 500;
     padding: 8px 12px;
     border-radius: 4px;
@@ -97,6 +97,55 @@
     background-color: #dee2e6;
   }
 
+  /* 검색 컨테이너 스타일 */
+  .search-container {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+  }
+
+  .search-input-group {
+    display: flex;
+    align-items: center;
+    background-color: #f1f3f9;
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: all 0.2s ease;
+  }
+
+  .search-input-group:hover,
+  .search-input-group:focus-within {
+    background-color: white;
+    box-shadow: 0 0 0 2px #3b5bdb;
+  }
+
+  #search-input {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    font-size: 14px;
+    color: #495057;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  #search-input:focus {
+    outline: none;
+  }
+
+  #search-button {
+    border: none;
+    background: none;
+    color: #3b5bdb;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  #search-button:hover {
+    color: #364fc7;
+  }
+
   /* 반응형 디자인을 위한 미디어 쿼리 */
   @media (max-width: 768px) {
     .header {
@@ -110,6 +159,11 @@
     .auth-buttons button {
       padding: 6px 12px;
     }
+
+    .search-container {
+      max-width: 200px;
+      margin: 0 10px;
+    }
   }
 </style>
 
@@ -117,10 +171,16 @@
   <div class="logo">
     <a href="${pageContext.request.contextPath}/">MapDiary</a>
   </div>
-  <div class="nav-links">
-    <a href="${pageContext.request.contextPath}/community.do">Community</a>
-    <a href="${pageContext.request.contextPath}/myplace.do">MyPlace</a>
+
+  <div class="search-container">
+    <div class="search-input-group">
+      <input type="text" id="search-input" placeholder="주소를 검색하세요" readonly>
+      <button id="search-button">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
   </div>
+
   <div class="auth-buttons">
     <span id="username" style="display: none;"></span>
     <button id="login_btn" style="display: none;" onclick="location.href='${pageContext.request.contextPath}/login.do'">로그인</button>

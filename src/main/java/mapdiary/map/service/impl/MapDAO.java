@@ -20,4 +20,8 @@ public class MapDAO extends EgovAbstractMapper {
     public void updateSharedStatus(Map<String, Object> data) {
         update("Map.updateSharedStatus",data);
     }
+
+    public void deleteLocation(Long locationId) {
+        delete("Map.deleteLocation", locationId);
+    }
 }

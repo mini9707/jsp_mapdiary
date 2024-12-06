@@ -19,6 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sweetalert2.min.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
 </head>
 <body>
@@ -41,6 +42,8 @@
     </div>
 </form>
 <p>이미 회원이신가요? <a href="${pageContext.request.contextPath}/login.do">로그인</a></p>
+<script src="<c:url value='/js/sweetalert2.all.min.js'/>"></script>
+<script src="<c:url value='/js/util.js'/>"></script>
 <script src="<c:url value='/js/signup.js'/>"></script>
 </body>
 </html>

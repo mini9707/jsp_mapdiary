@@ -128,6 +128,8 @@
                 if (fields.length > 0) {
                    focusField.focus();
                    alert(fields.join('\n'));
+                   util.alert('error', '제목', '내용');
+
                 }
                 return isValid;
             }

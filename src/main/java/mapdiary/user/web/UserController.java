@@ -2,6 +2,7 @@ package mapdiary.user.web;
 
 import mapdiary.user.service.UserService;
 import mapdiary.user.service.UserVO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,26 +35,36 @@ public class UserController {
     // 로그인 로직
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
     @ResponseBody
-    public String login(@RequestBody UserVO userVO, HttpSession session) {
-        UserVO user = userService.memberCheck(userVO);
-        if (user != null) {
-            session.setAttribute("user", user);
-            return "success";
-        } else {
-            return "redirect:/login.jsp?error=true";
+    public ResponseEntity<?> login(@RequestBody UserVO userVO, HttpSession session) {
+        try {
+            UserVO user = userService.memberCheck(userVO);
+            if (user != null) {
+                session.setAttribute("user", user);
+                return ResponseEntity.ok().body("success");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("아이디 또는 비밀번호가 일치하지 않습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("로그인 처리 중 오류가 발생했습니다.");
         }
     }
 
     // 회원가입 로직
     @RequestMapping(value = "/signup.do", method = RequestMethod.POST)
     @ResponseBody
-    public String signup(@RequestBody UserVO userVO) {
+    public ResponseEntity<?> signup(@RequestBody UserVO userVO) {
         try {
-            userService.signupUser(userVO);
-            return "redirect:/login.jsp";
+            String result = userService.signupUser(userVO);
+            if (result.equals("회원가입이 완료되었습니다.")) {
+                return ResponseEntity.ok().body("success");
+            } else {
+                return ResponseEntity.badRequest().body(result);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/signup.jsp?error=true";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("회원가입 처리 중 오류가 발생했습니다.");
         }
     }
 

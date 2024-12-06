@@ -19,6 +19,7 @@
     </script>
 
     <!-- 커스텀 CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/sweetalert2.min.css" type="text/css">
     <link rel="stylesheet" href="<c:url value='/css/login.css'/>" type="text/css">
 </head>
 
@@ -38,6 +39,8 @@
     </div>
 </form>
 <p>아직 회원이 아니신가요? <a href="${pageContext.request.contextPath}/signup.do">회원가입</a></p>
+<script src="<c:url value='/js/sweetalert2.all.min.js'/>"></script>
+<script src="<c:url value='/js/util.js'/>"></script>
 <script src="<c:url value='/js/login.js'/>"></script>
 </body>
 </html>
