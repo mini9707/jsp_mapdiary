@@ -55,10 +55,10 @@ public class CctvServiceImpl implements CctvService {
         params.put("type", "all");
         params.put("cctvType", "1");
         //범위 여기 수정하면댐
-        params.put("minX", "126.347625");
-        params.put("maxX", "126.888908");
-        params.put("minY", "37.375362");
-        params.put("maxY", "37.746308");
+        params.put("minX", "125.06666667"); // 서쪽 끝
+        params.put("maxX", "131.87222222"); // 동쪽 끝
+        params.put("minY", "33.10000000");  // 남쪽 끝
+        params.put("maxY", "38.45000000");  // 북쪽 끝
         params.put("getType", "json");
         for( String key : params.keySet() ){
             if (!key.equals("apiKey"))  urlBuilder.append("&");
